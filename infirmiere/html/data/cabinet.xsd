@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.ujf-grenoble.fr/l3miage/cabinet"
+            
+            targetNamespace="http://www.ujf-grenoble.fr/l3miage/cabinet"
+            elementFormDefault="qualified">
+
+    <xsd:element name="cabinet" type="Cabinet"/>
+    <xsd:complexType name="Cabinet">
+        <xsd:sequence>
+       
+            <xsd:element name ="nom" type="xsd:string"/>
+            <xsd:element name="adresse" type="Adresse"/>
+            <xsd:element name="infirmiers" type="Infirmiers"/>   
+        
+        </xsd:sequence>
+
+    </xsd:complexType>
+     
+     
+    <xsd:complexType name="Adresse">
+        <xsd:all>
+            <xsd:element name="etage" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="numero" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="rue" type="xsd:string"/>
+            <xsd:element name="ville" type="xsd:string"/>
+            <xsd:element name="codePostal" type="CodePostal"/>
+        </xsd:all> 
+    </xsd:complexType>
+    
+    
+     <xsd:simpleType name="CodePostal">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d\d\d\d\d"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    
+    <xsd:complexType name="Infirmiers">
+    <xsd:sequence>    
+        <xsd:element name="infirmier" type="Infirmier" minOccurs="1" maxOccurs="unbounded"/>
+        <xsd:element name="patients" type="Patients"/>        
+    </xsd:sequence>
+    </xsd:complexType>    
+    
+    
+    <xsd:complexType name="Infirmier">
+    <xsd:sequence>
+        <xsd:element name="nom"/>
+        <xsd:element name="prénom"/>
+        <xsd:element name="photo"/>
+    </xsd:sequence>    
+    <xsd:attribute name="id" type="Id"/>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="Patients">
+        <xsd:sequence>
+            <xsd:element name="patient" type="Patient" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType> 
+     
+    <xsd:complexType name="Patient">     
+        <xsd:sequence>
+            <xsd:element name="nom"/>
+            <xsd:element name="prénom"/>
+            <xsd:element name="sexe" type="Sexe"/>
+            <xsd:element name="naissance" type="xsd:date"/>
+            <xsd:element name="numéro" type="Vital"/>
+            <xsd:element name="adresse" type="Adresse"/>
+            <xsd:element name="visite" type="Visite"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:int"/>
+    </xsd:complexType> 
+    
+    <xsd:complexType name="Visite">
+        <xsd:sequence>
+        <xsd:element name="acte" type="Acte"/>
+        </xsd:sequence>
+        <xsd:attribute name="date" type="xsd:date"/>
+        <xsd:attribute name="intervenant" type="xsd:int"/>
+    </xsd:complexType>
+    
+   <xsd:simpleType name="Sexe">
+                 <xsd:restriction base="xsd:string">
+                     <xsd:pattern value="(M|F)"/>
+                 </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="Vital">
+                 <xsd:restriction base="xsd:string">
+                     <xsd:pattern value="\d{15}"/>
+                 </xsd:restriction>
+    </xsd:simpleType>
+             
+    <xsd:complexType name="Acte">
+        
+    <xsd:attribute name="id" type="Id"/>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="Id">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d\d\d"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+                            
+</xsd:schema>
