@@ -47,7 +47,10 @@ int main(int argc, char * argv[]) {
 
 	char buffer_in[TAILLE_BUFFER];
 	char buffer_out[TAILLE_BUFFER];
-	//int size_in, size_out;
+
+	char chaine_intercept[]="/INFIRMIERE";
+
+	int size_in;//, size_out;
 
 	/**
 	 * Récupération des paramètres, numéro de port ...
@@ -116,8 +119,6 @@ int main(int argc, char * argv[]) {
 
 		switch(pid_fils) {
 			case 0 :
-
-				printf("dans le fils\n");
 				close(sock);
 
 				sock_nodejs = socket(AF_INET, SOCK_STREAM, 0);
@@ -183,13 +184,7 @@ printf("Buffer in : \n %s\n", buffer_in);
 
 
 				} while (size_in>0&&size_in<TAILLE_BUFFER);
-*/
-					communicate(csock, sock_nodejs, buffer_in);
-
-printf("\n\n FIN RECEPTION DEPUIS CLIENT ET ENVOI CACHE\n\n");
-
-					communicate(sock_nodejs, csock, buffer_out);
-/*				
+			
 				memset(buffer_out, 0, TAILLE_BUFFER);
 				while((size_out=recv(sock_nodejs, buffer_out, TAILLE_BUFFER-1,0))>0) {
 				//if((size_out=recv(sock_nodejs, buffer_out, TAILLE_BUFFER-1,0))>0) {
@@ -209,14 +204,39 @@ printf("Buffer out : \n %s\n", buffer_out);
 					exit(errno);
 				}		
 */
+
+// OU
+				memset(buffer_out, 0, TAILLE_BUFFER);
+
+				size_in=recv(csock, buffer_in, TAILLE_BUFFER,0);
+
+				if(size_in == 0) {
+					printf("Client in disconnected");
+					fflush(stdout);
+				}
+				else if(size_in == -1) {
+					perror("Erreur avec la procedure recv() in ");
+					exit(errno);
+				}
+
+				if(send(sock_nodejs, buffer_in, size_in, 0) < 0) {
+					perror("Erreur avec la procedure send()");
+					exit(errno);
+				}
+				
+				if(strstr(buffer_in, chaine_intercept)!=NULL) {
+					printf("\n\ncoucou\n\n");
+				}
+				else {
+					communicate(csock, sock_nodejs, buffer_in);
+				}
+
 				close(csock);
 				close(sock_nodejs);
-				//die();
 				return 0;
 			break;
 
 			default :
-				printf("pere\n");
 				close(csock);
 			break;
 		}
