@@ -18,7 +18,8 @@
 #define TAILLE_BUFFER 4096
 
 void mort_fils() {
-	wait(-1);
+	int status;
+	wait(&status);
 }
 
 int main(int argc, char * argv[]) {
@@ -26,7 +27,7 @@ int main(int argc, char * argv[]) {
 	struct sigaction sig;
 	sig.sa_handler=mort_fils;
 	sig.sa_flags=SA_RESTART;
-	sigaction(SIG_CHILD, &sig, NULL);
+	sigaction(SIGCHLD, &sig, NULL);
 
 	int port = 80;
 	int indice;
@@ -46,7 +47,7 @@ int main(int argc, char * argv[]) {
 
 	char buffer_in[TAILLE_BUFFER];
 	char buffer_out[TAILLE_BUFFER];
-	int size_in, size_out;//, size_out;
+	//int size_in, size_out;
 
 	/**
 	 * Récupération des paramètres, numéro de port ...
@@ -149,10 +150,7 @@ int main(int argc, char * argv[]) {
 				/*
 				 * Analyse de la requète
 				 */
-				
-				//dialogue avec le client
-				
-//communicate(sock, csock, buffer_in);
+
 
 				//Reception de donnée depuis client
 				//traitement,
@@ -163,54 +161,39 @@ int main(int argc, char * argv[]) {
 				//envoi au client ou traitement puis envoi au client
 			
 /*
-char buffer[1024]
-int n = 0;
-
-if((n = recv(sock, buffer, sizeof buffer - 1, 0)) < 0)
-{
-    perror("recv()");
-    exit(errno);
-}
-
-buffer[n] = '\0';
-//
-*/
-//envoi
-/*
-SOCKET sock;
-char buffer[1024];
-[...]
-if(send(sock, buffer, strlen(buffer), 0) < 0)
-{
-    perror("send()");
-    exit(errno);
-}
-*/	
-				//while((size_in=recv(csock, buffer_in, TAILLE_BUFFER-1,0))>0) { // Reception de données depuis client
-				if((size_in=recv(csock, buffer_in, TAILLE_BUFFER-1,0))>0) { // Reception de données depuis client
-
-					if(send(csock, buffer_in, size_in,0)<0) {
-						perror("Erreur avec la procedure send()");
+				do {
+					memset(buffer_out, 0, TAILLE_BUFFER);
+					size_in=recv(csock, buffer_in, TAILLE_BUFFER,0);
+					if(size_in == 0) {
+						printf("Client in disconnected");
+						fflush(stdout);
+					}
+					else if(size_in == -1) {
+						perror("Erreur avec la procedure recv() in ");
 						exit(errno);
 					}
-//printf("Buffer in : \n %s\n", buffer_in);
+
+printf("Buffer in : \n %s\n", buffer_in);
 					if(send(sock_nodejs, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");
 						exit(errno);
 					}
-				}
-printf("\n\n FIN RECEPTION DEPUIS CLIENT ET ENVOI CACHE\n\n");
-				if(size_in == 0) {
-					printf("Client in disconnected");
-					fflush(stdout);
-				}
-				else if(size_in == -1) {
-					perror("Erreur avec la procedure recv() in ");
-					exit(errno);
-				}
 
-				//while((size_out=recv(sock_nodejs, buffer_out, TAILLE_BUFFER-1,0))>0) {
-				if((size_out=recv(sock_nodejs, buffer_out, TAILLE_BUFFER-1,0))>0) {
+					printf("\nsize in : %d\n", size_in);
+
+
+				} while (size_in>0&&size_in<TAILLE_BUFFER);
+*/
+					communicate(csock, sock_nodejs, buffer_in);
+
+printf("\n\n FIN RECEPTION DEPUIS CLIENT ET ENVOI CACHE\n\n");
+
+					communicate(sock_nodejs, csock, buffer_out);
+/*				
+				memset(buffer_out, 0, TAILLE_BUFFER);
+				while((size_out=recv(sock_nodejs, buffer_out, TAILLE_BUFFER-1,0))>0) {
+				//if((size_out=recv(sock_nodejs, buffer_out, TAILLE_BUFFER-1,0))>0) {
+printf("Buffer out : \n %s\n", buffer_out);
 					if(send(csock, buffer_out, size_out, 0) < 0) {
 						perror("Erreur avec la procedure send()");
 						exit(errno);
@@ -225,7 +208,7 @@ printf("\n\n FIN RECEPTION DEPUIS CLIENT ET ENVOI CACHE\n\n");
 					perror("Erreur avec la procedure recv() out ");
 					exit(errno);
 				}		
-
+*/
 				close(csock);
 				close(sock_nodejs);
 				//die();

@@ -20,4 +20,4 @@ clean :
 
 mrproper :
 	make clean
-	rm proxy
+	rm all
