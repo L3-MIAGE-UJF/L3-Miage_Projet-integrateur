@@ -53,6 +53,7 @@ int main(int argc, char * argv[]) {
 	char buffer_out[TAILLE_BUFFER];
 
 	char chaine_intercept_inf[]="/INFIRMIERE";
+	char chaine_intercept_gest[] = "interface-infirmiere";
 
 	int size_in;//, size_out;
 
@@ -268,9 +269,9 @@ printf("Buffer out : \n %s\n", buffer_out);
 					 * C'est pour google maps on fait le traitement nécessaire
 					 */
 				}
-				else {
+				else if(strstr(buffer_in, chaine_intercept_gest)!=NULL) {
 					/*
-					 * La chaine n'a pas été trouvée on envoie toutes les requetes sur nodejs, communicate fait ca apeu près bien.
+					 * Requete relative a l'interface de gestion
 					 */
 					if(send(sock_nodejs, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");
@@ -278,6 +279,17 @@ printf("Buffer out : \n %s\n", buffer_out);
 					}
 
 					communicate(csock, sock_nodejs, buffer_in);
+				}
+				else {
+					/*
+					 * La chaine n'a pas été trouvée on envoie toutes les requetes sur nodejs, communicate fait ca apeu près bien.
+					 */
+					if(send(sock_cacheujf, buffer_in, size_in, 0) < 0) {
+						perror("Erreur avec la procedure send()");
+						exit(errno);
+					}
+
+					communicate(csock, sock_cacheujf, buffer_in);
 				}
 
 				close(csock);
