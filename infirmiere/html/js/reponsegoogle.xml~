@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DistanceMatrixResponse>
+ <status>OK</status>
+ <origin_address>Grenoble, France</origin_address>
+ <origin_address>Paris, France</origin_address>
+ <destination_address>Valence, France</destination_address>
+ <destination_address>Saint-Pétersbourg, Russie</destination_address>
+ <row>
+  <element>
+   <status>OK</status>
+   <duration>
+    <value>3332</value>
+    <text>56 minutes</text>
+   </duration>
+   <distance>
+    <value>91577</value>
+    <text>91,6 km</text>
+   </distance>
+  </element>
+  <element>
+   <status>OK</status>
+   <duration>
+    <value>112912</value>
+    <text>1 jour 7 heures</text>
+   </duration>
+   <distance>
+    <value>2989513</value>
+    <text>2 990 km</text>
+   </distance>
+  </element>
+ </row>
+ <row>
+  <element>
+   <status>OK</status>
+   <duration>
+    <value>18248</value>
+    <text>5 heures 4 minutes</text>
+   </duration>
+   <distance>
+    <value>563266</value>
+    <text>563 km</text>
+   </distance>
+  </element>
+  <element>
+   <status>OK</status>
+   <duration>
+    <value>105671</value>
+    <text>1 jour 5 heures</text>
+   </duration>
+   <distance>
+    <value>2726426</value>
+    <text>2 726 km</text>
+   </distance>
+  </element>
+ </row>
+</DistanceMatrixResponse>

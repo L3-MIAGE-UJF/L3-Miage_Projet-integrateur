@@ -1,8 +1,9 @@
 #include <iostream>
+#include <stdlib.h>
 
 #include "FromXMLToGoogleMapHTTPRequest.h"
 #include "FromGoogleMapXMLToDistanceTable.h"
-//#include "SortVisits.h"
+#include "SortVisits.h"
 
 
 int main(int argc, char *argv[]) {
@@ -16,11 +17,12 @@ int main(int argc, char *argv[]) {
     char * id = argv[2];
     int idInt = 2;
     
+    SortVisits exec;
     FromXMLToGoogleMapHTTPRequest dataBaseParser(id);
-    FromGoogleMapXMLToDistanceTable googleMapParser;
+   // FromGoogleMapXMLToDistanceTable googleMapParser;
     std::vector<std::string> * adresses;
-    std::vector< std::vector<int> > * distances;
-    
+   // std::vector< std::vector<int> > * distances;
+
     
     int option = -1;
     while (option != 0) {
@@ -48,16 +50,24 @@ int main(int argc, char *argv[]) {
                 dataBaseParser.parseDocument(filename);
                 std::cout << std::endl;
                 std::cout << std::endl;
-                std::cout << "La requête HTTP est: " << dataBaseParser.getGoogleMapHttpRequest();
+                std::cout << "La requête HTTP est: " << dataBaseParser.getGoogleMapHttpRequest() << std::endl;
                 break;
                 
             case 2: // créer un tableau c++ à partir du fichier XML renvoyé par GoogleMap
-                googleMapParser.parseDocument("data/reponseGoogle.xml");
+
+                //creation du tableau
+
+                    exec.processDistanceMatrix(filename,"data/pageCabinet.html",atoi(id),"data/reponseGoogle.xml");
+                break;
+         }
+    }
+}
+               /* googleMapParser.parseDocument("data/reponseGoogle.xml");
                 std::cout << std::endl;
                 std::cout << std::endl;
                 adresses = googleMapParser.getAdresses();
                 distances = googleMapParser.getDistances();
-                
+
                 
                 // écrire la liste des adresses:
                 for (unsigned int i = 0; i < adresses->size(); i++)
@@ -119,7 +129,9 @@ int main(int argc, char *argv[]) {
                 break;
         }
         std::cout << std::endl << "-------------------------------------------" << std::endl << std::endl;
-    }
+
+ }
 	
 	return 0;
 }
+*/

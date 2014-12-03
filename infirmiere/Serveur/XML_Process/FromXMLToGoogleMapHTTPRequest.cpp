@@ -39,7 +39,6 @@ std::string FromXMLToGoogleMapHTTPRequest::findAttribute(const AttributeList& at
 
 void FromXMLToGoogleMapHTTPRequest::on_start_document() {
     state = START;
-
 }
 
 void FromXMLToGoogleMapHTTPRequest::on_end_document() {

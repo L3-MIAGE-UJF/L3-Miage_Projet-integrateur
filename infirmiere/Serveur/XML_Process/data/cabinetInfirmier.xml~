@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<ns1:cabinet
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns:ns1='http://www.ujf-grenoble.fr/l3miage/cabinet'
+        xsi:schemaLocation='http://www.ujf-grenoble.fr/l3miage/cabinet ../xsd/cabinetInfirmier.xsd'>
+    
+    <ns1:nom>Soins à Grenoble</ns1:nom>
+    <ns1:adresse>
+        <ns1:numero>60</ns1:numero>
+        <ns1:rue>rue de la chimie</ns1:rue>
+        <ns1:ville>Grenoble</ns1:ville>
+        <ns1:codePostal>38041</ns1:codePostal>
+    </ns1:adresse>
+    
+    <ns1:infirmiers>
+        <ns1:infirmier id="001">
+            <ns1:nom>Versaire</ns1:nom>
+            <ns1:prénom>Annie</ns1:prénom>
+            <ns1:photo>annie.jpg</ns1:photo>            
+        </ns1:infirmier>
+        
+        <ns1:infirmier id="002">
+            <ns1:nom>Cent</ns1:nom>
+            <ns1:prénom>Sally</ns1:prénom>
+            <ns1:photo>Sally.jpg</ns1:photo>            
+        </ns1:infirmier>
+        
+        <ns1:infirmier id="003">
+            <ns1:nom>Nouie</ns1:nom>
+            <ns1:prénom>Eva</ns1:prénom>
+            <ns1:photo>Eva.jpg</ns1:photo>            
+        </ns1:infirmier>
+        
+        <ns1:patients>
+            <ns1:patient id="101">
+                <ns1:nom>Aire</ns1:nom>
+                <ns1:prénom>Axel</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>1993-06-13</ns1:naissance>
+                <ns1:numéro>193061305545319</ns1:numéro>
+                <ns1:adresse>
+                    <ns1:etage>4</ns1:etage>
+                    <ns1:numero>46</ns1:numero>
+                    <ns1:rue>Avenue Félix Viallet</ns1:rue>
+                    <ns1:ville>Grenoble</ns1:ville>
+                    <ns1:codePostal>38031</ns1:codePostal>
+                </ns1:adresse>             
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="109"/>                    
+                </ns1:visite>
+                <!-- Homme, né en juin 93 en france, Marseille (n°55 en bouche
+                 du rhone) 453e naissance -->
+                
+            </ns1:patient>
+            
+            
+            <ns1:patient id="102">
+                <ns1:nom>Orouge</ns1:nom>
+                <ns1:prénom>Elvire</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>1980-03-08</ns1:naissance>
+                <ns1:numéro>180036923529661</ns1:numéro>
+                
+                <ns1:adresse>
+                    <ns1:rue>Rond-Point de la Croix de Vie</ns1:rue>
+                    <ns1:ville>La Tronche</ns1:ville>
+                    <ns1:codePostal>38700</ns1:codePostal>
+                </ns1:adresse> 
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="300"/>                    
+                </ns1:visite>
+                <!-- Elvire est née le 08 mars 80 en France, à Lyon 
+                (n° 23 dans le rhône), il s'agissait de la 52e naissance dans 
+                cette ville -->
+                
+            </ns1:patient>
+            
+            <ns1:patient id="103">
+                <ns1:nom>Pien</ns1:nom>
+                <ns1:prénom>Oscare</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>1975-10-25</ns1:naissance>
+                <ns1:numéro>175107306569267</ns1:numéro>
+                <ns1:adresse>
+                    <ns1:rue>rue Casimir Brenier</ns1:rue>
+                    <ns1:ville>Grenoble</ns1:ville>
+                    <ns1:codePostal>38000</ns1:codePostal>
+                </ns1:adresse>
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="101"/>                    
+                </ns1:visite>
+                <!-- Oscare est née le 25 octobre 75 en France, à Chambéry 
+                (n° 65 dans la Savoie) Il s'agissait de la 692e naissance. -->
+                
+            </ns1:patient>
+            
+            <ns1:patient id="104">
+                <ns1:nom>Kapoëtla</ns1:nom>
+                <ns1:prénom>Xavier</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>2010-08-02</ns1:naissance>
+                <ns1:numéro>110083306303570</ns1:numéro>
+                <ns1:adresse>
+                    <ns1:numero>25</ns1:numero>
+                    <ns1:rue>rue des Martyrs</ns1:rue>
+                    <ns1:ville>Grenoble</ns1:ville>
+                    <ns1:codePostal>38000</ns1:codePostal>
+                </ns1:adresse>  
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="111"/>                    
+                </ns1:visite>
+                <!-- Xavier est un petit garçon de 4 ans, né le 02 août 2010
+                en France, à Bordeaux (n° 63 dans la Gironde).
+                Il s'agi de la 35e naissance. -->
+                
+            </ns1:patient>         
+        </ns1:patients>
+      
+    </ns1:infirmiers>   
+</ns1:cabinet>

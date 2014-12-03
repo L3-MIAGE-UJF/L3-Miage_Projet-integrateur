@@ -44,7 +44,7 @@ protected:
     
    /// Etat courant
    int state;
-   
+   std::string addrTemp;
    std::string adresseCourante;
    /// Vecteur des adresses à remplir
    std::vector<std::string> * adresses;

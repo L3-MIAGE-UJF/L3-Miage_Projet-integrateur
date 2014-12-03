@@ -53,7 +53,7 @@
                 n°1 ce jour là.
                 Lors de la dernière visite, l'intervenant doit aussi enlever les 25 points de suture de son opération.
                 -->
-                <visite date="2014-12-08" intervenant="002">
+                <visite date="2014-12-08" intervenant="">
                     <acte id="109"/>               
                 </visite>
                 
@@ -101,7 +101,7 @@
                 jour et injection intraveineuse directe isolée d'anthalgiques les 
                 autres jours.
                 -->
-                <visite date="2014-12-08" intervenant="002">
+                <visite date="2014-12-08" intervenant="001">
                     <acte id="101"/>
                     <acte id="104"/>               
                 </visite>
@@ -125,7 +125,7 @@
                 Le jeune Xavier est en cours de désensibilation alergique.
                 Il doit recevoir tous les jours, l'injection de plusieurs allergènes, etc.
                 -->
-                <visite date="2014-12-08" intervenant="">
+                <visite date="2014-12-08" intervenant="003">
                     <acte id="111"/>               
                 </visite>
                 
@@ -144,10 +144,10 @@
                 <ville>Montbonnot-Saint-Martin</ville>
                 <codePostal>38330</codePostal>
             </adresse>
-                <visite date="2014-12-08" intervenant="003">
+                <visite date="2014-12-08" intervenant="002">
                     <acte id="401"/>
                 </visite>
                 
         </patient>
-   </patients>
+   <patient><nom>ooouuuiii</nom><prénom></prénom><numéro></numéro><sexe></sexe><naissance></naissance><visite date="2014-12-08"/><adresse><étage></étage><numéro></numéro><rue></rue><ville></ville><codePostal></codePostal></adresse></patient><patient><nom>ooouuuiii</nom><prénom>hg</prénom><numéro>124</numéro><sexe></sexe><naissance></naissance><visite date="2014-12-08" intervenant=""/><adresse><étage></étage><numéro></numéro><rue></rue><ville></ville><codePostal></codePostal></adresse></patient></patients>
 </cabinet>

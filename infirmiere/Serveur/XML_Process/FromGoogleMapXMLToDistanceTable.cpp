@@ -9,6 +9,7 @@ FromGoogleMapXMLToDistanceTable::FromGoogleMapXMLToDistanceTable() : LwSaxParser
     adresses = NULL;
     ligne = NULL;
     distanceMatrix = NULL;
+    addrTemp = "";
 }
 
 
@@ -86,7 +87,7 @@ std::vector< std::vector<int> > * FromGoogleMapXMLToDistanceTable::getDistances(
     distanceMatrix->push_back(ligne3);
     delete ligne;
     
-    
+    dsg
  */
     return distanceMatrix;
     
@@ -111,6 +112,7 @@ void FromGoogleMapXMLToDistanceTable::on_start_element(const Glib::ustring& name
             if (name =="origin_address")
             {
                 state = ORIGIN_ADDRESS;
+                addrTemp ="";
             }
             if (name =="row")
             {
@@ -155,7 +157,7 @@ void FromGoogleMapXMLToDistanceTable::on_characters(const Glib::ustring& text)
         switch(state)
         {
             case ORIGIN_ADDRESS:{
-                adresses->push_back(text);
+                addrTemp +=text;
                 break;
             }
             case VALUE:{
@@ -172,6 +174,7 @@ void FromGoogleMapXMLToDistanceTable::on_end_element(const Glib::ustring& name)
     switch(state)
     {
         case ORIGIN_ADDRESS:{
+            adresses->push_back(addrTemp);
             state = START;
             break;
         }
