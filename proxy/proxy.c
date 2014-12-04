@@ -20,7 +20,9 @@
 #define TAILLE_BUFFER 4096
 #define PORT_NODEJS 8046
 #define TEMP_APP_EXT "tmp/tmp_app_ext.tmp"
+#define TEMP_APP_EXT_HTML "tmp/tmp_app_ext_html.tmp"
 #define OUTPUT_APP_EXT "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"
+#define OUTPUT_APP_EXT_HTML "../infirmiere/Serveur/XML_Process/data/pageCabinet.html"
 #define OUTPUT_APP_EXT_TMP "tmp/output_app_ext.tmp"
 #define APP_EXT_TEST_PARSER "../infirmiere/Serveur/XML_Process/testParsers"
 
@@ -64,7 +66,7 @@ int main(int argc, char * argv[]) {
 
 	int size_in, size_out;
 
-	int file_temp_app_ext, file_output_app_ext;
+	int file_temp_app_ext, file_output_app_ext, file_output_app_ext_html;
 	char *s_id_post_inf;
 	int status_pid_app_ext;
 
@@ -267,8 +269,9 @@ printf("Buffer out : \n %s\n", buffer_out);
 					perror("Erreur avec la procedure recv() in ");
 					exit(errno);
 				}		
-
-				if(strstr(buffer_in, chaine_intercept_inf)!=NULL) {
+				char petit_tampon[120];
+				strncpy(petit_tampon,buffer_in,119);
+				if(strstr(petit_tampon, chaine_intercept_inf)!=NULL) {
 				/*
 					if(send(sock_cacheujf, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");
@@ -290,8 +293,6 @@ printf("Buffer out : \n %s\n", buffer_out);
 						switch(pid_execution_app_ext=fork()) {
 							case 0 :
 								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
-
-								printf("\n id : %d \n",atoi(s_id_post_inf+3));
 
 								dup2(file_temp_app_ext, STDOUT_FILENO);
 
@@ -348,13 +349,39 @@ printf("recu par google : %s", gros_tampon);
 									exit(EXIT_FAILURE);
 								}
 
-								if(send(csock, shift, size_out-lol, 0) < 0) {
-									perror("Erreur avec la procedure send()");
-									exit(errno);
+								close(file_output_app_ext);
+
+								switch(pid_execution_app_ext=fork()) {
+									case 0 :
+										execl(APP_EXT_TEST_PARSER,"testParsers", "2", s_id_post_inf+3,(char *)0);
+										exit(EXIT_FAILURE); // En cas d'echec d'execl
+									break;
+
+									default :
+
+										printf("en attente mort execution app cpp\n");
+
+										waitpid(pid_execution_app_ext, &status_pid_app_ext, 0);
+
+										printf("le fils est mort, vive le fils !");
+
+										file_output_app_ext_html = open(OUTPUT_APP_EXT_HTML, O_RDWR);
+
+										if((size_in=read(file_output_app_ext_html, gros_tampon, 3310720))==-1) {
+											perror("Erreur avec la procedure read()");
+											exit(EXIT_FAILURE);
+										}
+
+										if(send(csock, gros_tampon, size_in, 0) < 0) {
+											perror("Erreur avec la procedure send()");
+											exit(errno);
+										}
+
+										//printf("\n lu dans fichier : %s ", buffer_in);
+ 
+									break;
 								}
 
-								close(file_output_app_ext);
-								printf("fin\n");exit(0);
 							break;
 						}
 					}
@@ -363,7 +390,7 @@ printf("recu par google : %s", gros_tampon);
 					 * C'est pour google maps on fait le traitement nécessaire
 					 */
 				}
-				else if(strstr(buffer_in, chaine_intercept_gest)!=NULL) {
+				else if(strstr(petit_tampon, chaine_intercept_gest)!=NULL) {
 					/*
 					 * Requete relative a l'interface de gestion
 					 */
