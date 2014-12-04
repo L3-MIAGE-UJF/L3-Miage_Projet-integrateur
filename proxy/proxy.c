@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 #include "libcomm/communicate.h"
 
@@ -32,7 +34,7 @@ int main(int argc, char * argv[]) {
 	int port = 80;
 	int indice;
 
-	int pid_fils;
+	int pid_fils, pid_execution_app_ext;
 
 	int sock, csock, sock_nodejs, sock_cacheujf;
 
@@ -57,6 +59,9 @@ int main(int argc, char * argv[]) {
 
 	int size_in;//, size_out;
 
+	int file_output_app_ext;
+	char *s_id_post_inf;
+	int status_pid_app_ext;
 	/**
 	 * Récupération des paramètres, numéro de port ...
 	 */
@@ -258,13 +263,48 @@ printf("Buffer out : \n %s\n", buffer_out);
 				}		
 
 				if(strstr(buffer_in, chaine_intercept_inf)!=NULL) {
-				
+				/*
 					if(send(sock_cacheujf, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");
 						exit(errno);
 					}
 
 					communicate(csock, sock_cacheujf, buffer_in);
+				*/
+					/*
+					 * On recoit une requete /INFIRMIERE on va extraire l'id et lancer l'application
+					 */
+
+					printf("\nBuffer recu : \n %s \n \n", buffer_in);
+					
+					if((s_id_post_inf=strstr(buffer_in,"id="))==NULL) {
+						printf("\n Attention ! Pas d'id trouvé \n");
+					}
+					else {
+						file_output_app_ext = open("tmp/tmp_output_app_ext.tmp", O_RDWR | O_CREAT | O_APPEND | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
+						switch(pid_execution_app_ext=fork()) {
+							case 0 :
+
+								/* Make the standard output refer to the newly opened file */
+								dup2(file_output_app_ext, STDIN_FILENO);
+								dup2(file_output_app_ext, STDOUT_FILENO);
+
+								/* Now we don't need the file descriptor returned by `open`, so close it */
+								close(file_output_app_ext);
+
+								/* Execute the program */
+								execl("/sbin/echo","echo","1",(char *)0);
+								exit(EXIT_FAILURE); // En cas d'echec d'execl
+							break;
+
+							default :
+								printf("en attente mort execution app cpp\n");
+								waitpid(pid_execution_app_ext, &status_pid_app_ext, WEXITED);
+								printf("le fils est mort, vive le fils !");
+							break;
+						}
+					}
+
 					/*
 					 * C'est pour google maps on fait le traitement nécessaire
 					 */
