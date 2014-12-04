@@ -18,8 +18,10 @@
 #define INVALID_SOCKET -1
 
 #define TAILLE_BUFFER 4096
-
 #define PORT_NODEJS 8046
+#define TEMP_APP_EXT "tmp/tmp_output_app_ext.tmp"
+#define OUTPUT_APP_EXT "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"
+#define APP_EXT_TEST_PARSER "../infirmiere/Serveur/XML_Process/testParsers"
 
 void mort_fils() {
 	int status;
@@ -61,10 +63,9 @@ int main(int argc, char * argv[]) {
 
 	int size_in;//, size_out;
 
-	int file_output_app_ext;
+	int file_temp_app_ext, file_output_app_ext;
 	char *s_id_post_inf;
 	int status_pid_app_ext;
-	int id_post_inf;
 
 	/**
 	 * Récupération des paramètres, numéro de port ...
@@ -287,19 +288,15 @@ printf("Buffer out : \n %s\n", buffer_out);
 					else {
 						switch(pid_execution_app_ext=fork()) {
 							case 0 :
-
-						file_output_app_ext = open("tmp/tmp_output_app_ext.tmp", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
+								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
 
 								printf("\n id : %d \n",atoi(s_id_post_inf+3));
 
-								dup2(file_output_app_ext, STDOUT_FILENO);
+								dup2(file_temp_app_ext, STDOUT_FILENO);
 
-								//close(file_output_app_ext);
+								close(file_temp_app_ext);
 
-								id_post_inf=atoi(s_id_post_inf+3);
-id_post_inf=id_post_inf;
-//system("../infirmiere/Serveur/XML_Process/testParsers 1 1 > tmp/tmp_output_app_ext.tmp");
-								execl("../infirmiere/Serveur/XML_Process/testParsers","testParsers", "1", "1",(char *)0);
+								execl(APP_EXT_TEST_PARSER,"testParsers", "1", s_id_post_inf+3,(char *)0);
 								exit(EXIT_FAILURE); // En cas d'echec d'execl
 							break;
 
@@ -311,14 +308,26 @@ id_post_inf=id_post_inf;
 
 								printf("le fils est mort, vive le fils !");
 
-								file_output_app_ext = open("tmp/tmp_output_app_ext.tmp", O_RDWR);
+								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR);
 
-								if(read(file_output_app_ext, buffer_out, TAILLE_BUFFER)==-1) {
-									perror("error read");
+								if(read(file_temp_app_ext, buffer_in, TAILLE_BUFFER)==-1) {
+									perror("Erreur avec la procedure read()");
 									exit(EXIT_FAILURE);
 								}
 
 								printf("\n lu dans fichier : %s ", buffer_out);
+
+
+								file_output_app_ext = open(OUTPUT_APP_EXT, O_RDONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
+								if(write(file_output_app_ext, buffer_out, TAILLE_BUFFER)==-1) {
+									perror("Erreur avec la procedure write()");
+									exit(EXIT_FAILURE);
+								}
+
+								if(send(sock_nodejs, buffer_in, size_in, 0) < 0) {
+									perror("Erreur avec la procedure send()");
+									exit(errno);
+								}
 
 								close(file_output_app_ext);
 							break;
