@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
-
+#include <curl/curl.h>
+#include <stdio.h>
 #include "FromXMLToGoogleMapHTTPRequest.h"
 #include "FromGoogleMapXMLToDistanceTable.h"
 #include "SortVisits.h"
@@ -13,19 +14,22 @@ int main(int argc, char *argv[]) {
         std::cout << "> ./testParsers data/cabinetInfirmier.xml 001" << std::endl << std::endl;
         return 1;
     }
-    char * filename = argv[1];
+    std::string file ="data/cabinetInfirmier.xml";
+    char *filename = &file[0];
+    //char * filename = file.c_str();
+
     char * id = argv[2];
     int idInt = 2;
     
     SortVisits exec;
     FromXMLToGoogleMapHTTPRequest dataBaseParser(id);
    // FromGoogleMapXMLToDistanceTable googleMapParser;
-    std::vector<std::string> * adresses;
+   // std::vector<std::string> * adresses;
    // std::vector< std::vector<int> > * distances;
 
     
-    int option = -1;
-    while (option != 0) {
+    int option = atoi(argv[1]);
+    /*while (option != 0) {
         std::cout << "-------------------------------------------" << std::endl;
         std::cout << "Que voulez-vous faire avec ce fichier ?" << std::endl;
         std::cout << "0 quitter l'application" << std::endl;
@@ -35,33 +39,30 @@ int main(int argc, char *argv[]) {
         std::cout << "-------------------------------------------" << std::endl;
         
         std::cin >> option;
-        
+
         if (std::cin.fail()) {
             std::cin.clear();
             //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), std::cin.widen ( '\n' ));
             option = -1;
         }
-        
+      */
         switch (option) {
             case 0: // On ne fait rien et l'on s'en va...
                 break;
                 
             case 1: // obtenir la requête HTTP à envoyer à GoogleMap pour récupérer les matrices de distances entre les adresses
                 dataBaseParser.parseDocument(filename);
-                std::cout << std::endl;
-                std::cout << std::endl;
-                std::cout << "La requête HTTP est: " << dataBaseParser.getGoogleMapHttpRequest() << std::endl;
+                std::cout << dataBaseParser.getGoogleMapHttpRequest()<< std::endl;
                 break;
                 
             case 2: // créer un tableau c++ à partir du fichier XML renvoyé par GoogleMap
-
+                    dataBaseParser.parseDocument(filename);
                 //creation du tableau
-
                     exec.processDistanceMatrix(filename,"data/pageCabinet.html",atoi(id),"data/reponseGoogle.xml");
                 break;
          }
     }
-}
+//}
                /* googleMapParser.parseDocument("data/reponseGoogle.xml");
                 std::cout << std::endl;
                 std::cout << std::endl;

@@ -226,7 +226,7 @@ for(var i=2; i<process.argv.length; i++) {
 	params[p[0]] = p[1];
 }
 
-var port = params.port || 8080;
+var port = params.port || 8046;
 console.log("Usage :\n\tnode staticServeur.js [port:PORT]\n\tDefault port is 8080.");
 console.log("HTTP server listening on port " + port);
 RRServer.init( port );

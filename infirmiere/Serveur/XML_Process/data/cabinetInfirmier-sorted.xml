@@ -59,25 +59,6 @@ and open the template in the editor.
                 <!-- Oscare est née le 25 octobre 75 en France, à Chambéry 
                 (n° 65 dans la Savoie) Il s'agissait de la 692e naissance. -->
                 
-            </ns1:patient><ns1:patient xmlns:ns1="http://www.ujf-grenoble.fr/l3miage/cabinet" id="101">
-                <ns1:nom>Aire</ns1:nom>
-                <ns1:prénom>Axel</ns1:prénom>
-                <ns1:sexe>M</ns1:sexe>
-                <ns1:naissance>1993-06-13</ns1:naissance>
-                <ns1:numéro>193061305545319</ns1:numéro>
-                <ns1:adresse>
-                    <ns1:etage>4</ns1:etage>
-                    <ns1:numero>46</ns1:numero>
-                    <ns1:rue>Avenue Félix Viallet</ns1:rue>
-                    <ns1:ville>Grenoble</ns1:ville>
-                    <ns1:codePostal>38031</ns1:codePostal>
-                </ns1:adresse>             
-                <ns1:visite date="2014-12-08" intervenant="002">
-                    <ns1:acte id="109"/>                    
-                </ns1:visite>
-                <!-- Homme, né en juin 93 en france, Marseille (n°55 en bouche
-                 du rhone) 453e naissance -->
-                
             </ns1:patient><ns1:patient xmlns:ns1="http://www.ujf-grenoble.fr/l3miage/cabinet" id="102">
                 <ns1:nom>Orouge</ns1:nom>
                 <ns1:prénom>Elvire</ns1:prénom>

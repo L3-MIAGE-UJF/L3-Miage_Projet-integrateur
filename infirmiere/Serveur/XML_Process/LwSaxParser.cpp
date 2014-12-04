@@ -14,7 +14,7 @@
 
 
 LwSaxParser::LwSaxParser() : xmlpp::SaxParser() {
-	std::cout << "Building my own sax parser..." << std::endl;
+//	std::cout << "Building my own sax parser..." << std::endl;
 }
 
 LwSaxParser::~LwSaxParser() {
@@ -24,7 +24,7 @@ LwSaxParser::~LwSaxParser() {
 void LwSaxParser::parseDocument(char * filename) {
  try 
     {
-        std::cout << "Lecture du fichier " << filename << " ligne par ligne..." << std::endl;
+//        std::cout << "Lecture du fichier " << filename << " ligne par ligne..." << std::endl;
         std::string line;
         std::ifstream inputStream(filename);
 
@@ -32,7 +32,7 @@ void LwSaxParser::parseDocument(char * filename) {
             parse_chunk(line);
         }
         finish_chunk_parsing();
-        std::cout << "Fin de la lecture du fichier " << filename << "." << std::endl;
+//        std::cout << "Fin de la lecture du fichier " << filename << "." << std::endl;
       }
       catch(const xmlpp::exception& ex)
        {

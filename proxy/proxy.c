@@ -19,6 +19,8 @@
 
 #define TAILLE_BUFFER 4096
 
+#define PORT_NODEJS 8046
+
 void mort_fils() {
 	int status;
 	wait(&status);
@@ -62,6 +64,8 @@ int main(int argc, char * argv[]) {
 	int file_output_app_ext;
 	char *s_id_post_inf;
 	int status_pid_app_ext;
+	int id_post_inf;
+
 	/**
 	 * Récupération des paramètres, numéro de port ...
 	 */
@@ -179,7 +183,7 @@ int main(int argc, char * argv[]) {
 				}
 
 				sin_nodejs.sin_addr = *(struct in_addr *) hostinfo_nodejs->h_addr;
-				sin_nodejs.sin_port = htons(8080);
+				sin_nodejs.sin_port = htons(PORT_NODEJS);
 				sin_nodejs.sin_family = AF_INET;
 
 				if(connect(sock_nodejs,(struct sockaddr *) &sin_nodejs, sizeof(struct sockaddr)) == SOCKET_ERROR)
@@ -291,9 +295,13 @@ printf("Buffer out : \n %s\n", buffer_out);
 
 								/* Now we don't need the file descriptor returned by `open`, so close it */
 								close(file_output_app_ext);
+								
+								printf("\n id : %d \n",atoi(s_id_post_inf+3));
+
+								id_post_inf=atoi(s_id_post_inf+3);
 
 								/* Execute the program */
-								execl("/sbin/echo","echo","1",(char *)0);
+								execl("../infirmiere/Serveur/XML_Process/testParsers","testParsers", id_post_inf,(char *)0);
 								exit(EXIT_FAILURE); // En cas d'echec d'execl
 							break;
 

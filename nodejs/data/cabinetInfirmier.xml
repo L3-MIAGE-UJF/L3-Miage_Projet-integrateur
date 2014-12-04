@@ -77,7 +77,7 @@
                 (Pansement de brûlure étendue ou de plaie chimique ou thermique étendue,
                     sur une surface supérieure à 5 % de la surface corporelle.....)
                 -->
-                <visite date="2014-12-08" intervenant="001">
+                <visite date="2014-12-08" intervenant="002">
                     <acte id="300"/>               
                 </visite>
                 
@@ -125,7 +125,7 @@
                 Le jeune Xavier est en cours de désensibilation alergique.
                 Il doit recevoir tous les jours, l'injection de plusieurs allergènes, etc.
                 -->
-                <visite date="2014-12-08" intervenant="003">
+                <visite date="2014-12-08" intervenant="002">
                     <acte id="111"/>               
                 </visite>
                 
@@ -149,5 +149,5 @@
                 </visite>
                 
         </patient>
-   <patient><nom>ooouuuiii</nom><prénom/><numéro/><sexe/><naissance/><visite date="2014-12-08"/><adresse><étage/><numéro/><rue/><ville/><codePostal/></adresse></patient><patient><nom>ooouuuiii</nom><prénom>hg</prénom><numéro>124</numéro><sexe/><naissance/><visite date="2014-12-08" intervenant="003"/><adresse><étage/><numéro/><rue/><ville/><codePostal/></adresse></patient><patient><nom>martin</nom><prénom>martin</prénom><numéro>15161616</numéro><sexe>F</sexe><naissance></naissance><visite date="2014-12-08" intervenant="002"/><adresse><étage></étage><numéro></numéro><rue></rue><ville></ville><codePostal></codePostal></adresse></patient><patient><nom>dryhfth</nom><prénom>fthft</prénom><numéro>5</numéro><sexe>hfth</sexe><naissance>tftxh</naissance><visite date="2014-12-08" intervenant="002"/><adresse><étage>fthfth</étage><numéro>fthfth</numéro><rue>30 Cours Jean Jaurès</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient></patients>
+   <patient><nom>ooouuuiii</nom><prénom/><numéro/><sexe/><naissance/><visite date="2014-12-08"/><adresse><étage/><numéro/><rue/><ville/><codePostal/></adresse></patient><patient><nom>ooouuuiii</nom><prénom>hg</prénom><numéro>124</numéro><sexe/><naissance/><visite date="2014-12-08" intervenant="002"/><adresse><étage/><numéro/><rue/><ville/><codePostal/></adresse></patient><patient><nom>martin</nom><prénom>martin</prénom><numéro>15161616</numéro><sexe>F</sexe><naissance/><visite date="2014-12-08" intervenant="002"/><adresse><étage/><numéro/><rue/><ville/><codePostal/></adresse></patient><patient><nom>dryhfth</nom><prénom>fthft</prénom><numéro>5</numéro><sexe>hfth</sexe><naissance>tftxh</naissance><visite date="2014-12-08" intervenant="002"/><adresse><étage>fthfth</étage><numéro>fthfth</numéro><rue>30 Cours Jean Jaurès</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient><patient><nom>sef</nom><prénom>sefsef</prénom><numéro>4</numéro><sexe>sf</sexe><naissance>sef</naissance><visite date="2014-12-08" intervenant="002"/><adresse><étage>4</étage><numéro>4</numéro><rue>Saltillo - Castaños Sauceda</rue><ville>Eastland</ville><codePostal>76448</codePostal></adresse></patient></patients>
 </cabinet>
