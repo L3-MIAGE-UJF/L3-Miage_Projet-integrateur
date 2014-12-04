@@ -20,8 +20,8 @@
 #define TAILLE_BUFFER 4096
 #define PORT_NODEJS 8046
 #define TEMP_APP_EXT "tmp/tmp_app_ext.tmp"
-#define OUTPUT_APP_EXT_2 "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"
-#define OUTPUT_APP_EXT "tmp/tmpgdrgrdG.tmp"
+#define OUTPUT_APP_EXT "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"
+#define OUTPUT_APP_EXT_TMP "tmp/output_app_ext.tmp"
 #define APP_EXT_TEST_PARSER "../infirmiere/Serveur/XML_Process/testParsers"
 
 void mort_fils() {
@@ -337,12 +337,18 @@ printf("Buffer out : \n %s\n", buffer_out);
 								}
 printf("recu par google : %s", gros_tampon);
 								file_output_app_ext = open(OUTPUT_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
-								if(write(file_output_app_ext, gros_tampon, size_out)==-1) {
+
+								char * shift;
+								shift=strstr(gros_tampon,"<?xml");
+
+								int lol = (int)strcspn(gros_tampon,"<?");
+
+								if(write(file_output_app_ext, shift, size_out-lol)==-1) {
 									perror("Erreur avec la procedure write()");
 									exit(EXIT_FAILURE);
 								}
 
-								if(send(csock, gros_tampon, size_out, 0) < 0) {
+								if(send(csock, shift, size_out-lol, 0) < 0) {
 									perror("Erreur avec la procedure send()");
 									exit(errno);
 								}
