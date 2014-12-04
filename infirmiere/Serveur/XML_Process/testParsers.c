@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
         std::cout << "> ./testParsers data/cabinetInfirmier.xml 001" << std::endl << std::endl;
         return 1;
     }
-    std::string file ="data/cabinetInfirmier.xml";
+    std::string file ="../infirmiere/Serveur/XML_Process/data/cabinetInfirmier.xml";
     char *filename = &file[0];
     //char * filename = file.c_str();
 
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
             case 2: // créer un tableau c++ à partir du fichier XML renvoyé par GoogleMap
                     dataBaseParser.parseDocument(filename);
                 //creation du tableau
-                    exec.processDistanceMatrix(filename,"data/pageCabinet.html",atoi(id),"data/reponseGoogle.xml");
+                    exec.processDistanceMatrix(filename,"../infirmiere/Serveur/XML_Process/data/pageCabinet.html",atoi(id),"../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml");
                 break;
          }
     }

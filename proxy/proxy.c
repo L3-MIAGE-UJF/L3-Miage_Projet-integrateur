@@ -285,30 +285,42 @@ printf("Buffer out : \n %s\n", buffer_out);
 						printf("\n Attention ! Pas d'id trouvé \n");
 					}
 					else {
-						file_output_app_ext = open("tmp/tmp_output_app_ext.tmp", O_RDWR | O_CREAT | O_APPEND | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
 						switch(pid_execution_app_ext=fork()) {
 							case 0 :
 
-								/* Make the standard output refer to the newly opened file */
-								dup2(file_output_app_ext, STDIN_FILENO);
-								dup2(file_output_app_ext, STDOUT_FILENO);
+						file_output_app_ext = open("tmp/tmp_output_app_ext.tmp", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
 
-								/* Now we don't need the file descriptor returned by `open`, so close it */
-								close(file_output_app_ext);
-								
 								printf("\n id : %d \n",atoi(s_id_post_inf+3));
 
-								id_post_inf=atoi(s_id_post_inf+3);
+								dup2(file_output_app_ext, STDOUT_FILENO);
 
-								/* Execute the program */
-								execl("../infirmiere/Serveur/XML_Process/testParsers","testParsers", id_post_inf,(char *)0);
+								//close(file_output_app_ext);
+
+								id_post_inf=atoi(s_id_post_inf+3);
+id_post_inf=id_post_inf;
+//system("../infirmiere/Serveur/XML_Process/testParsers 1 1 > tmp/tmp_output_app_ext.tmp");
+								execl("../infirmiere/Serveur/XML_Process/testParsers","testParsers", "1", "1",(char *)0);
 								exit(EXIT_FAILURE); // En cas d'echec d'execl
 							break;
 
 							default :
+
 								printf("en attente mort execution app cpp\n");
-								waitpid(pid_execution_app_ext, &status_pid_app_ext, WEXITED);
+
+								waitpid(pid_execution_app_ext, &status_pid_app_ext, 0);
+
 								printf("le fils est mort, vive le fils !");
+
+								file_output_app_ext = open("tmp/tmp_output_app_ext.tmp", O_RDWR);
+
+								if(read(file_output_app_ext, buffer_out, TAILLE_BUFFER)==-1) {
+									perror("error read");
+									exit(EXIT_FAILURE);
+								}
+
+								printf("\n lu dans fichier : %s ", buffer_out);
+
+								close(file_output_app_ext);
 							break;
 						}
 					}

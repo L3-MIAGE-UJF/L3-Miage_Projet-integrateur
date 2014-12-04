@@ -213,7 +213,7 @@ void SortVisits::saveXHTMLFile(char * inputXMLFile, char * outputXHTMLFile, int 
     
 	xmlSubstituteEntitiesDefault(1);
 	xmlLoadExtDtdDefaultValue = 1;
-    cur = xsltParseStylesheetFile((const xmlChar *) ("data/cabinetToInfirmier.xsl"));
+    cur = xsltParseStylesheetFile((const xmlChar *) ("../infirmiere/Serveur/XML_Process/data/cabinetToInfirmier.xsl"));
 
 	doc = xmlParseFile(inputXMLFile);
     
