@@ -19,7 +19,7 @@ FromXMLToGoogleMapHTTPRequest::~FromXMLToGoogleMapHTTPRequest() {
 }
 
 std::string FromXMLToGoogleMapHTTPRequest::getGoogleMapHttpRequest() {
-    request = "https://maps.googleapis.com/maps/api/distancematrix/xml?origins=" + std::string(curl_easy_escape(NULL,listeAdresses.c_str(),0)) + "&destinations=" + std::string(curl_easy_escape(NULL,listeAdresses.c_str(),0));
+    request = "http://maps.googleapis.com/maps/api/distancematrix/xml?origins=" + std::string(curl_easy_escape(NULL,listeAdresses.c_str(),0)) + "&destinations=" + std::string(curl_easy_escape(NULL,listeAdresses.c_str(),0));
     return request;
 }
 

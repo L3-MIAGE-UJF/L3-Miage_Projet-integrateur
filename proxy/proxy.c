@@ -19,8 +19,9 @@
 
 #define TAILLE_BUFFER 4096
 #define PORT_NODEJS 8046
-#define TEMP_APP_EXT "tmp/tmp_output_app_ext.tmp"
-#define OUTPUT_APP_EXT "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"
+#define TEMP_APP_EXT "tmp/tmp_app_ext.tmp"
+#define OUTPUT_APP_EXT_2 "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"
+#define OUTPUT_APP_EXT "tmp/tmpgdrgrdG.tmp"
 #define APP_EXT_TEST_PARSER "../infirmiere/Serveur/XML_Process/testParsers"
 
 void mort_fils() {
@@ -61,7 +62,7 @@ int main(int argc, char * argv[]) {
 	char chaine_intercept_inf[]="/INFIRMIERE";
 	char chaine_intercept_gest[] = "interface-infirmiere";
 
-	int size_in;//, size_out;
+	int size_in, size_out;
 
 	int file_temp_app_ext, file_output_app_ext;
 	char *s_id_post_inf;
@@ -310,26 +311,44 @@ printf("Buffer out : \n %s\n", buffer_out);
 
 								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR);
 
-								if(read(file_temp_app_ext, buffer_in, TAILLE_BUFFER)==-1) {
+								if((size_in=read(file_temp_app_ext, buffer_in, TAILLE_BUFFER))==-1) {
 									perror("Erreur avec la procedure read()");
 									exit(EXIT_FAILURE);
 								}
 
-								printf("\n lu dans fichier : %s ", buffer_out);
+								printf("\n lu dans fichier : %s ", buffer_in);
 
+								memset(buffer_out, 0, TAILLE_BUFFER);
+								strcpy(buffer_out, "GET ");
+								strncpy(buffer_out+strlen(buffer_out), buffer_in, size_in);
+								
+								printf("\nbuffer envoyé a google :\n%s", buffer_out);
 
-								file_output_app_ext = open(OUTPUT_APP_EXT, O_RDONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
-								if(write(file_output_app_ext, buffer_out, TAILLE_BUFFER)==-1) {
+								// Envoi de la requete a google map
+								if(send(sock_cacheujf, buffer_out, strlen(buffer_out), 0) < 0) {
+									perror("Erreur avec la procedure send()");
+									exit(errno);
+								}
+								char gros_tampon[3310720];
+								//reception
+								if((size_out=recv(sock_cacheujf, gros_tampon, 3310720,0))==-1) {
+									perror("Erreur avec la procedure recv() in ");
+									exit(errno);
+								}
+printf("recu par google : %s", gros_tampon);
+								file_output_app_ext = open(OUTPUT_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
+								if(write(file_output_app_ext, gros_tampon, size_out)==-1) {
 									perror("Erreur avec la procedure write()");
 									exit(EXIT_FAILURE);
 								}
 
-								if(send(sock_nodejs, buffer_in, size_in, 0) < 0) {
+								if(send(csock, gros_tampon, size_out, 0) < 0) {
 									perror("Erreur avec la procedure send()");
 									exit(errno);
 								}
 
 								close(file_output_app_ext);
+								printf("fin\n");exit(0);
 							break;
 						}
 					}

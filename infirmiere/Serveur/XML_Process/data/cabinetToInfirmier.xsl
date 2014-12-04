@@ -47,12 +47,12 @@
                     ]]>
                 </script>  -->         
                         
-                <h1>Bonjour <xsl:value-of select="ref:cabinet/ref:infirmiers/ref:infirmier[@id=$destinedId]/ref:prenom"/>  </h1>
+                <h1>Bonjour <xsl:value-of select="ref:cabinet/ref:infirmiers/ref:infirmier[@id=$destinedId]/ref:prénom"/>  </h1>
                 <h2> vous avez  <xsl:value-of select =" count(//ref:patient/ref:visite[@intervenant=$destinedId])"/> patients</h2>
                 <table>
                     <tr>
                         <th> Nom </th>
-                        <th> Prenom </th>
+                        <th> Prénom </th>
                         <th> Adresse </th>
                         <th> Actes </th>
                         <th> Facture </th>
@@ -72,7 +72,7 @@
                     <xsl:value-of select="ref:nom"/>
                 </td>    
                 <td>
-                    <xsl:value-of select="ref:prenom"/>
+                    <xsl:value-of select="ref:prénom"/>
                 </td>
                 <td>
                     <xsl:value-of select="ref:adresse/ref:numero"/>
@@ -92,7 +92,7 @@
                     <xsl:element name="button">
                         <xsl:attribute name="onclick">
                             openFacture('<xsl:value-of select="ref:nom"/>',
-                            '<xsl:value-of select="ref:prenom"/>',
+                            '<xsl:value-of select="ref:prénom"/>',
                             '<xsl:for-each select="ref:visite/ref:acte">
                                 <xsl:variable name="idAct" select="@id"/>
                                 <xsl:value-of select="($actes/act:actes/act:acte[@id=$idAct]/@id)"/>
