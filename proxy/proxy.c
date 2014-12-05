@@ -103,6 +103,8 @@ int main(int argc, char * argv[]) {
 	    exit(errno);
 	}
 
+	printf("\nLancement du proxy sur le port %d\n\n", port);
+
 	/*
 	 * Debut boucle principale
 	 */
@@ -131,6 +133,8 @@ int main(int argc, char * argv[]) {
 				 */
 
 				// Connexion au cache UJF
+
+				printf("\nProc fils, connexion a cacheujf et nodejs %d\n\n", port);
 
 				sock_cacheujf = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -293,6 +297,8 @@ printf("Buffer out : \n %s\n", buffer_out);
 
 					//printf("\nBuffer recu : \n %s \n \n", buffer_in);
 					
+					printf("\nChaine POST /INFIRMIERE interceptée\n\n");					
+
 					s_id_post_inf=strstr(buffer_in,"id=");
 
 					if(s_id_post_inf==NULL) {
@@ -317,6 +323,8 @@ printf("Buffer out : \n %s\n", buffer_out);
 					}
 				}
 				else if(strstr(petit_tampon, chaine_intercept_gest)!=NULL) {
+
+					printf("\nChaine Interface infirmiere interceptée\n\n");					
 					/*
 					 * Requete relative a l'interface de gestion
 					 * On envoie le premier paquet qui a été lu sur le socket nodejs
@@ -347,6 +355,8 @@ printf("Buffer out : \n %s\n", buffer_out);
 					 * ou destinées a un tout autre hôte/
 					 * On envoie le premier paquet qui a été lu sur le socket cacheujf
 					 */
+					
+					printf("\nChaine non reconnue redirection sur le cache ujf\n\n");					
 
 					if(send(sock_cacheujf, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");
