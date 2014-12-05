@@ -285,16 +285,10 @@ printf("Buffer out : \n %s\n", buffer_out);
 				 */
 
 				if(strstr(petit_tampon, chaine_intercept_inf)!=NULL) {
-				/*
-					if(send(sock_cacheujf, buffer_in, size_in, 0) < 0) {
-						perror("Erreur avec la procedure send()");
-						exit(errno);
-					}
 
-					communicate(csock, sock_cacheujf, buffer_in);
-				*/
 					/*
-					 * On recoit une requete /INFIRMIERE on va extraire l'id et lancer l'application
+					 * On recoit une requete contenant /INFIRMIERE 
+					 * Il faut extraire l'id et lancer l'application et récupérer ce qu'elle renvoie
 					 */
 
 					//printf("\nBuffer recu : \n %s \n \n", buffer_in);
@@ -310,38 +304,67 @@ printf("Buffer out : \n %s\n", buffer_out);
 						 * On extrait l'identifiant
 						 */
 
+						//On alloue l'espace necessaire pour l'id
 						s_id_post_inf_comp=malloc(sizeof(char)*strlen(s_id_post_inf));
+						//On copie l'id dans cette chaine
 						strncpy(s_id_post_inf_comp,s_id_post_inf+3,strlen(s_id_post_inf));
+
+						/*
+						 * Premier appel de l'application externe, les actions suivantes découlent de ce premier appel
+						 */
 
 						premier_appel_app_ext(csock, sock_cacheujf, s_id_post_inf_comp);
 					}
-
-					/*
-					 * C'est pour google maps on fait le traitement nécessaire
-					 */
 				}
 				else if(strstr(petit_tampon, chaine_intercept_gest)!=NULL) {
 					/*
 					 * Requete relative a l'interface de gestion
+					 * On envoie le premier paquet qui a été lu sur le socket nodejs
 					 */
+
 					if(send(sock_nodejs, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");
 						exit(errno);
 					}
 
+					/*
+					 * Le premier paquet à été envoyé on souhaite maintenant que tout les paquets suivants
+					 * transitent en I/O sur ces deux ports
+					 */
+
+					/*
+					 * A modifier pour avoir une fonction qui gère les connexion persistantes et autres problèmes
+					 * non pris en compte dans communicate.
+					 */
+
 					communicate(csock, sock_nodejs, buffer_in);
 				}
 				else {
 					/*
-					 * La chaine n'a pas été trouvée on envoie toutes les requetes sur nodejs, communicate fait ca apeu près bien.
+					 * Les chaines recherchées n'ont pas été trouvées
+					 * On envoie toutes les requetes sur cacheujf.
+					 * Car il s'agit de requetes type Asynchrone Javascript (Ajax), pour Google Map ...
+					 * ou destinées a un tout autre hôte/
+					 * On envoie le premier paquet qui a été lu sur le socket cacheujf
 					 */
+
 					if(send(sock_cacheujf, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");
 						exit(errno);
 					}
 
+					/*
+					 * Le premier paquet à été envoyé on souhaite maintenant que tout les paquets suivants
+					 * transitent en I/O sur ces deux ports
+					 */
+
 					communicate(csock, sock_cacheujf, buffer_in);
 				}
+
+				/*
+				 * Toutes les opérations sont finies le fils n'a plus d'actions a accomplir.
+				 * Il peut fermer ses sockets et mourir.
+				 */
 
 				close(csock);
 				close(sock_nodejs);
@@ -351,6 +374,7 @@ printf("Buffer out : \n %s\n", buffer_out);
 			break;
 
 			default :
+				// Le père n'a pas besoin du socket ouvert pour la communication du fils
 				close(csock);
 			break;
 		}
