@@ -21,6 +21,10 @@ int recup_param_port(int argc, char * argv[]) {
 	int port;
 	int indice;
 
+	/*
+	 * On parcours argv afin d'identifier le parametre p
+	 */
+
 	if (argc>1) {
 		for(indice=1;indice<argc;indice=indice+2) {
 			if (argv[indice][0]=='-'&&argv[indice][2]=='\0') {
@@ -48,14 +52,25 @@ void premier_appel_app_ext(int csock, int sock_cacheujf, char * s_id_post_inf_co
 	
 	switch(pid_execution_app_ext=fork()) {
 		case 0 :
+
+			/*
+			 * Nous sommes dans le fils
+			 *
+			 * Ouverture d'un fichier qui servira pour enregistrer la sortie standard de l'application
+			 * modification du stdout du fils par le fichier ouvert.
+			 *
+			 *
+			 */
+
 			file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
 
 			dup2(file_temp_app_ext, STDOUT_FILENO);
 
 			close(file_temp_app_ext);
 
-			execl(APP_EXT_TEST_PARSER,"testParsers", "1", s_id_post_inf_comp, "../infirmiere/Serveur/XML_Process/data/",(char *)0);
-			exit(EXIT_FAILURE); // En cas d'echec d'execl
+			execl(APP_EXT_TEST_PARSER,"testParsers", "1", s_id_post_inf_comp, CHEMIN_XML_PROCESS_DATA,(char *)0);
+
+			exit(EXIT_FAILURE); // En cas d'echec d'execl on termine le fils
 		break;
 
 		default :
@@ -132,8 +147,9 @@ void second_appel_app_ext(int csock, char gros_tampon[3310720]) {
 
 	switch(pid_execution_app_ext=fork()) {
 		case 0 :
-			execl(APP_EXT_TEST_PARSER,"testParsers", "2", s_id_post_inf_comp, "../infirmiere/Serveur/XML_Process/data/",(char *)0);
-			exit(EXIT_FAILURE); // En cas d'echec d'execl
+			execl(APP_EXT_TEST_PARSER,"testParsers", "2", s_id_post_inf_comp, CHEMIN_XML_PROCESS_DATA,(char *)0);
+
+			exit(EXIT_FAILURE); // En cas d'echec d'execl on termine le fils
 		break;
 
 		default :

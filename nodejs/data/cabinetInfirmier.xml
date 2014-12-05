@@ -1,153 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?><cabinet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.ujf-grenoble.fr/l3miage/cabinet" xsi:schemaLocation="http://www.ujf-grenoble.fr/l3miage/cabinet ../schema/cabinet.xsd">
-    <nom>Soins à Grenoble</nom>
-    <adresse>
-        <numéro>60</numéro>
-        <rue>rue de la Chimie</rue>
-        <ville>Grenoble</ville>
-        <codePostal>38041</codePostal>
-    </adresse>
-    <infirmiers>
-        <infirmier id="001">
-            <nom>Versaire</nom>
-            <prénom>Annie</prénom>
-            <photo>annie.jpg</photo>
-        </infirmier>
-        <infirmier id="002">
-            <nom>Cent</nom>
-            <prénom>Sally</prénom>
-            <photo>sally.jpg</photo>
-        </infirmier>
-        <infirmier id="003">
-            <nom>Nouie</nom>
-            <prénom>Eva</prénom>
-            <photo>eva.jpg</photo>
-        </infirmier>
-    </infirmiers>
-    <patients>
-        <patient>
-            <nom>Aire</nom>
-            <prénom>Axel</prénom>
-            <sexe>M</sexe>
-            <naissance>1993-06-13</naissance>
-            <!-- Homme, né en juin 93 en France, à Marseille (n° 55 en bouches du rhône) 
-            453e naissance (clé calculée: 19)-->
-            <numéro>193061305545319</numéro>
-            <adresse>
-                <étage>4</étage>
-                <numéro>46</numéro>
-                <rue>avenue Félix Viallet</rue>
-                <ville>Grenoble</ville>
-                <codePostal>38031</codePostal>            
-            </adresse>
-            <!-- Ici, j'ai choisi d'identifier l'infirmière par un numéro.
-            Un prénom peut porter à confusion.
-            Un login peut être ok -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<ns1:cabinet
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns:ns1='http://www.ujf-grenoble.fr/l3miage/cabinet'
+        xsi:schemaLocation='http://www.ujf-grenoble.fr/l3miage/cabinet cabinetInfirmier.xsd'>
+    
+    <ns1:nom>Soins à Grenoble</ns1:nom>
+    <ns1:adresse>
+        <ns1:numero>60</ns1:numero>
+        <ns1:rue>rue de la chimie</ns1:rue>
+        <ns1:ville>Grenoble</ns1:ville>
+        <ns1:codePostal>38041</ns1:codePostal>
+    </ns1:adresse>
+    
+    <ns1:infirmiers>
+        <ns1:infirmier id="001">
+            <ns1:nom>Versaire</ns1:nom>
+            <ns1:prénom>Annie</ns1:prénom>
+            <ns1:photo>annie.jpg</ns1:photo>            
+        </ns1:infirmier>
+        
+        <ns1:infirmier id="002">
+            <ns1:nom>Cent</ns1:nom>
+            <ns1:prénom>Sally</ns1:prénom>
+            <ns1:photo>Sally.jpg</ns1:photo>            
+        </ns1:infirmier>
+        
+        <ns1:infirmier id="003">
+            <ns1:nom>Nouie</ns1:nom>
+            <ns1:prénom>Eva</ns1:prénom>
+            <ns1:photo>Eva.jpg</ns1:photo>            
+        </ns1:infirmier>
+        
+        <ns1:patients>
+            <ns1:patient id="101">
+                <ns1:nom>Aire</ns1:nom>
+                <ns1:prénom>Axel</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>1993-06-13</ns1:naissance>
+                <ns1:numéro>193061305545319</ns1:numéro>
+                <ns1:adresse>
+                    <ns1:etage>4</ns1:etage>
+                    <ns1:numero>46</ns1:numero>
+                    <ns1:rue>Avenue Félix Viallet</ns1:rue>
+                    <ns1:ville>Grenoble</ns1:ville>
+                    <ns1:codePostal>38031</ns1:codePostal>
+                </ns1:adresse>             
+                <ns1:visite date="2014-12-08" intervenant="002">
+                    <ns1:acte id="109"/>                    
+                </ns1:visite>
+                <!-- Homme, né en juin 93 en france, Marseille (n°55 en bouche
+                 du rhone) 453e naissance -->
                 
-            <!-- 
-            Axel a eu un accident de moto à cause duquel il a dû être opéré.
-            Il est immobilisé pour un mois et doit donc recevoir des injections
-            sous-cutanées d'anti-coagulant tous les jours pendant une semaine pour éviter les flébites.
-            (Q: Peut-on ajouter la contrainte qu'elles doievent être faites à la même heure chaque jour ?)
-            L'intervenant qui prend en charge Axel est le n°2. Cet intervenant
-            ne travaille pas le mercredi et doit donc céder sa place à l'intervenant
-            n°1 ce jour là.
-            Lors de la dernière visite, l'intervenant doit aussi enlever les 25 points de suture de son opération.
-            -->
-            <visite date="2014-12-08" intervenant="001">
-                <acte id="109"/>               
-            </visite>
+            </ns1:patient>
+            
+            
+            <ns1:patient id="102">
+                <ns1:nom>Orouge</ns1:nom>
+                <ns1:prénom>Elvire</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>1980-03-08</ns1:naissance>
+                <ns1:numéro>180036923529661</ns1:numéro>
                 
-        </patient>
-        <patient>        
-            <nom>Orouge</nom>
-            <prénom>Elvire</prénom>
-            <sexe>F</sexe>
-            <naissance>1980-03-08</naissance>
-            <!-- Femme, née en mars 80 en France, à Lyon (n° 23 dans le rhône) 
-            52e naissance (clé calculée: 19)-->
-            <numéro>280036902305219</numéro>        
-            <adresse>
-                <rue>Rond-Point de la Croix de Vie</rue> 
-                <ville>La Tronche</ville>
-                <codePostal>38700</codePostal>           
-            </adresse>
-            <!-- 
-            Elvire a été gravement brulée, et l'intervenant doit changer son 
-            pansement tous les 2 jours
-            (Pansement de brûlure étendue ou de plaie chimique ou thermique étendue,
-                sur une surface supérieure à 5 % de la surface corporelle.....)
-            -->
-            <visite date="2014-12-08" intervenant="001">
-                <acte id="300"/>               
-            </visite>
+                <ns1:adresse>
+                    <ns1:rue>Rond-Point de la Croix de Vie</ns1:rue>
+                    <ns1:ville>La Tronche</ns1:ville>
+                    <ns1:codePostal>38700</ns1:codePostal>
+                </ns1:adresse> 
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="300"/>                    
+                </ns1:visite>
+                <!-- Elvire est née le 08 mars 80 en France, à Lyon 
+                (n° 23 dans le rhône), il s'agissait de la 52e naissance dans 
+                cette ville -->
                 
-        </patient>
-        <patient>        
-            <nom>Oscare</nom>
-            <prénom>Pien</prénom>
-            <sexe>M</sexe>
-            <naissance>1975-10-25</naissance>
-            <!-- Homme, née en octobre 75 en France, à Chambéry (n° 65 dans la Savoie) 
-            692e naissance (clé calculée: 67)-->
-            <numéro>175107306569267</numéro>
-            <adresse>
-                <rue>rue Casimir Brenier</rue>
-                <ville>Grenoble</ville>
-                <codePostal>38000</codePostal>
-            </adresse>
-            <!-- 
-            Oscar s'est cassé l'os du pied en jouant au foot. d
-            Il a besoin d'un prélèvement par ponction veineuse directe le premier
-            jour et injection intraveineuse directe isolée d'anthalgiques les 
-            autres jours.
-            -->
-            <visite date="2014-12-08" intervenant="001">
-                <acte id="101"/>
-                <acte id="104"/>               
-            </visite>
+            </ns1:patient>
+            
+            <ns1:patient id="103">
+                <ns1:nom>Pien</ns1:nom>
+                <ns1:prénom>Oscare</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>1975-10-25</ns1:naissance>
+                <ns1:numéro>175107306569267</ns1:numéro>
+                <ns1:adresse>
+                    <ns1:rue>rue Casimir Brenier</ns1:rue>
+                    <ns1:ville>Grenoble</ns1:ville>
+                    <ns1:codePostal>38000</ns1:codePostal>
+                </ns1:adresse>
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="101"/>                    
+                </ns1:visite>
+                <!-- Oscare est née le 25 octobre 75 en France, à Chambéry 
+                (n° 65 dans la Savoie) Il s'agissait de la 692e naissance. -->
                 
-        </patient>
-        <patient>        
-            <nom>Xavier</nom>
-            <prénom>Kapoëtla</prénom>
-            <sexe>M</sexe>
-            <naissance>2010-08-02</naissance>
-            <!-- Garçon (4 ans) né en août 2010 en France, à Bordeaux (n° 63 dans la Gironde) 
-            35e naissance (clé calculée: 70)-->
-            <numéro>110083306303570</numéro>
-            <adresse>
-                <numéro>25</numéro>
-                <rue>rue des Martyrs</rue>
-                <ville>Grenoble</ville>
-                <codePostal>38042</codePostal>
-            </adresse>
-            <!-- 
-            Le jeune Xavier est en cours de désensibilation alergique.
-            Il doit recevoir tous les jours, l'injection de plusieurs allergènes, etc.
-            -->
-            <visite date="2014-12-08" intervenant="001">
-                <acte id="111"/>               
-            </visite>
+            </ns1:patient>
+            
+            <ns1:patient id="104">
+                <ns1:nom>Kapoëtla</ns1:nom>
+                <ns1:prénom>Xavier</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>2010-08-02</ns1:naissance>
+                <ns1:numéro>110083306303570</ns1:numéro>
+                <ns1:adresse>
+                    <ns1:numero>25</ns1:numero>
+                    <ns1:rue>rue des Martyrs</ns1:rue>
+                    <ns1:ville>Grenoble</ns1:ville>
+                    <ns1:codePostal>38000</ns1:codePostal>
+                </ns1:adresse>  
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="111"/>                    
+                </ns1:visite>
+                <!-- Xavier est un petit garçon de 4 ans, né le 02 août 2010
+                en France, à Bordeaux (n° 63 dans la Gironde).
+                Il s'agi de la 35e naissance. -->
                 
-        </patient>
-        <patient>
-            <nom>Peplu</nom>
-            <prénom>Jean</prénom>
-            <sexe>M</sexe>
-            <naissance>1910-08-02</naissance>
-            <!-- Né dans le Doubs, il y a 104 ans dans le commune de Les Combes 
-            (n° 160), 20e naissance (clé calculée: 10) -->
-            <numéro>110082516002010</numéro>
-            <adresse>            
-                <numéro>655</numéro>
-                <rue>Avenue de l'Europe</rue>
-                <ville>Montbonnot-Saint-Martin</ville>
-                <codePostal>38330</codePostal>
-            </adresse>
-            <visite date="2014-12-08" intervenant="001">
-                <acte id="401"/>
-            </visite>
-                
-        </patient>
-    <patient><nom>Pigeon</nom><prénom>Marcel</prénom><numéro>1256328749</numéro><sexe>M</sexe><naissance>18/02/1990</naissance><visite date="2014-12-08" intervenant="001"/><adresse><étage/><numéro/><rue>5 Rue Jean Prévost</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient><patient><nom>Christ</nom><prénom>Jésus</prénom><numéro>1587964536</numéro><sexe>M</sexe><naissance>18/02/1900</naissance><visite date="2014-12-08" intervenant="001"/><adresse><étage>5</étage><numéro>5</numéro><rue>29 Rue Lesdiguières</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient><patient><nom></nom><prénom></prénom><numéro></numéro><sexe></sexe><naissance></naissance><visite date="2014-12-08"/><adresse><étage></étage><numéro></numéro><rue></rue><ville></ville><codePostal></codePostal></adresse></patient></patients>
-</cabinet>
+            </ns1:patient>         
+        </ns1:patients>
+      
+    </ns1:infirmiers>   
+</ns1:cabinet>

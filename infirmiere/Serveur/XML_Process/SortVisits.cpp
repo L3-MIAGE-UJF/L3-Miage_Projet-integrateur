@@ -60,11 +60,12 @@ void SortVisits::processDistanceMatrix(char * che, char * outputFileName, int id
         adressesTrie->push_back(adresses->at(L[i]));
     }
 
-    std::string inputStd("cabinetInfirmier");
-
-    std::string tmpFileName = che + inputStd.substr(0, inputStd.find_last_of("."));
+    std::string tmpFileName("../nodejs/data/cabinetInfirmier");
 
     tmpFileName += "-sorted.xml";
+
+     std::cout<< "-----------------------------cabinet infirmier2" << inputFileName << std::endl;
+      std::cout<< "-----------------------------cabinet infirmier-sorted" << tmpFileName << std::endl;
 
     char *tmp = &tmpFileName[0];
 
@@ -76,10 +77,10 @@ std::string SortVisits::getPatientNodeAdresse(xmlpp::Node * adresseNode) {
     Adresse adresse;
     xmlpp::Node * node;
     xmlpp::Element * element;
-    
+
     xmlpp::Node::PrefixNsMap nsMap;
     nsMap["cab"] = "http://www.ujf-grenoble.fr/l3miage/cabinet";
-    
+
     // On récupère le numéro s'il existe
     if (adresseNode->find("cab:numero", nsMap).size() > 0) {
         node = adresseNode->find("cab:numero", nsMap).at(0);
@@ -89,7 +90,7 @@ std::string SortVisits::getPatientNodeAdresse(xmlpp::Node * adresseNode) {
             adresse.setNumero(numero);
         }
     }
-    
+
     // On récupère la rue
     node = adresseNode->find("cab:rue", nsMap).at(0);
     element = dynamic_cast <xmlpp::Element *> (node);
@@ -97,7 +98,7 @@ std::string SortVisits::getPatientNodeAdresse(xmlpp::Node * adresseNode) {
         std::string rue = element->get_child_text()->get_content();
         adresse.setRue(rue);
     }
-    
+
     // On récupère la ville
     node = adresseNode->find("cab:ville", nsMap).at(0);
     element = dynamic_cast <xmlpp::Element *> (node);
@@ -105,7 +106,7 @@ std::string SortVisits::getPatientNodeAdresse(xmlpp::Node * adresseNode) {
         std::string rue = element->get_child_text()->get_content();
         adresse.setVille(rue);
     }
-    
+
     // On récupère le code postal
     node = adresseNode->find("cab:codePostal", nsMap).at(0);
     element = dynamic_cast <xmlpp::Element *> (node);
@@ -113,7 +114,7 @@ std::string SortVisits::getPatientNodeAdresse(xmlpp::Node * adresseNode) {
         std::string code = element->get_child_text()->get_content();
         adresse.setCodePostal(code);
     }
-    
+
     return adresse.getGoogleAnswerAdress();
 }
 /// Faire le job...
@@ -148,12 +149,12 @@ void SortVisits::modifyFile(const char * inputFilename, std::vector<std::string>
               //std::cout << adresse  << std::endl;
               xmlpp::Document * newDoc = new xmlpp::Document();
               patientsAdresses[adresse] = newDoc->create_root_node_by_import(patient);
-              patientsNode->remove_child(patient);              
+              patientsNode->remove_child(patient);
           }
-          
+
           // Maintenant que tous les patients ont été supprimés du document, il faut les
           //  remettre dans le bon ordre
-          
+
           // On parcourt les adresses d'entrées, on les cherche dans la map, si on les trouve, on les remets
           std::vector<std::string>::iterator it;
           for (it = adresses->begin(); it != adresses->end(); it++) {
@@ -167,7 +168,7 @@ void SortVisits::modifyFile(const char * inputFilename, std::vector<std::string>
           // Serialize the output file
           doc->write_to_file(outputFilename, "UTF-8");
     }
-        
+
 }
 
 
@@ -223,25 +224,28 @@ void SortVisits::saveXHTMLFile(char * inputXMLFile, char * outputXHTMLFile, int 
 
 //    std::string fichier1 =chemin + fich1;
     std::string fichier2 =chemin + fich2;
-
+std::cout<< "----------------------------- cabinf_sorted.xml  " << inputXMLFile << std::endl;
+std::cout<< "----------------------------- cabinf.XSL  " << fichier2 << std::endl;
+std::cout<< "----------------------------- HTML  " << outputXHTMLFile << std::endl;
     cur = xsltParseStylesheetFile((const xmlChar *) (fichier2.c_str()));
-
+std::cout<< "bla" << std::endl;
     doc = xmlParseFile(inputXMLFile);
-    
+  std::cout<< "bla" << std::endl;
 	res = xsltApplyStylesheet(cur, doc, params);
+   std::cout<< "bla" << std::endl;
     outFile=(fopen(outputXHTMLFile,"w"));
        if(outFile==NULL){
            printf("Error!");
            exit(1);
        }
     xsltSaveResultToFile(outFile, res, cur);
-
+std::cout<< "bla" << std::endl;
     fclose(outFile);
-    
+  std::cout<< "bla" << std::endl;
 	xsltFreeStylesheet(cur);
 	xmlFreeDoc(res);
 	xmlFreeDoc(doc);
-
+std::cout<< "bla" << std::endl;
     xsltCleanupGlobals();
     xmlCleanupParser();
 

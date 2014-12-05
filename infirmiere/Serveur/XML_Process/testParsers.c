@@ -15,20 +15,24 @@ int main(int argc, char *argv[]) {
     }
     char *chemin = argv[3];
 
-    std::string che = std::string(chemin);
+
+    std::string che2 = std::string(chemin);
+    std::string che = "../nodejs/data/";
+    char* chemin2 = &che[0];
 
     std::string file =che + "cabinetInfirmier.xml";
     char *filename = &file[0];
 
-    std::string file2 = che + "reponseGoogle.xml";
+    std::string file2 = che2 + "reponseGoogle.xml";
     char* google = &file2[0];
 
-    std::string file3 = che + "pageCabinet.html";
+    std::string che3 = "../nodejs/" ;
+
+    std::string file3 = che3 + "pageCabinet.html";
     char* pageHtml = &file3[0];
 
 
     //char * filename = file.c_str();
-
 
 
     char * id = argv[2];
@@ -64,14 +68,18 @@ int main(int argc, char *argv[]) {
                 break;
                 
             case 1: // obtenir la requête HTTP à envoyer à GoogleMap pour récupérer les matrices de distances entre les adresses
-                dataBaseParser.parseDocument(filename);
-                std::cout << dataBaseParser.getGoogleMapHttpRequest()<< std::endl;
+                    dataBaseParser.parseDocument(filename);
+                    std::cout << dataBaseParser.getGoogleMapHttpRequest()<< std::endl;
                 break;
                 
             case 2: // créer un tableau c++ à partir du fichier XML renvoyé par GoogleMap
+                    std::cout<< "-----------------------------cabinet infirmier" << filename << std::endl;
+                    std::cout<< "-----------------------------google" << google << std::endl;
+                    std::cout<< "-----------------------------pageHtml" << pageHtml << std::endl;
+
                     dataBaseParser.parseDocument(filename);
                 //creation du tableau
-                    exec.processDistanceMatrix(chemin,pageHtml,atoi(id),google);
+                    exec.processDistanceMatrix(chemin2,pageHtml,atoi(id),google);
                 break;
          }
     }
