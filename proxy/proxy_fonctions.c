@@ -48,8 +48,10 @@ void premier_appel_app_ext(int csock, int sock_cacheujf, char * s_id_post_inf_co
 	int status_pid_app_ext;
 
 	char buffer_in[TAILLE_BUFFER], buffer_out[TAILLE_BUFFER];
-	int size_in, size_out;
+	int size_in, size_out, size_shift;
 	
+	char * shift;
+
 	switch(pid_execution_app_ext=fork()) {
 		case 0 :
 
@@ -122,13 +124,10 @@ printf("le fils est mort, vive le fils !");
 			}
 
 			/*
-			 * Partie a optimiser, on récupère les données de google pour en extraire un fichier xml.
-			 * Pour l'instant il s'agit d'un gros tampon,
-			 * l'objectif est d'avoir un while et des recv pour récuperer le fichier complet, nous devons utiliser select+recv
-			 * car un simple read ne permet pas de pendre en compte de prendre certains cas dans le protocol http.
-			 * Un do while + read permettrais de lire avec un petit tampon tout le fichier envoyé
-			 * Mais beacoup de choses ne seraient pas supportés, comme les connexions persistantes.
-			 * Et cela est sujet a beaucoup plus d'erreur qu'un do while + select + recv
+			 * Partie pouvant être encore améliorée, on récupère les données de google pour en extraire un fichier xml.
+			 * l'objectif est d'avoir un while et des recv ou read pour récuperer le fichier complet
+			 * un simple read ne permet pas de pendre en compte de prendre certains cas dans le protocol http.
+			 * Un do while + read permet de lire avec un petit tampon tout le fichier envoyé, c'est une version simplifiée tout a fait fonctionnelle.
 			 */
 
 			/*
@@ -140,7 +139,31 @@ printf("le fils est mort, vive le fils !");
 				exit(EXIT_FAILURE);
 			}
 
-			// Reception depuis google du fichier
+			/*
+			 * Reception depuis google du fichier
+			 */
+
+			memset(buffer_out, 0, TAILLE_BUFFER);
+
+			if((size_out=read(sock_cacheujf, buffer_out, TAILLE_BUFFER))==-1) {
+				perror("Erreur avec la procedure read() sock_cacheujf");
+				exit(errno);
+			}
+
+			/*
+			 * On récupère le premier paquet et on ne commence a écrire que la ou commence le fichier xml
+			 * identifié par sa balise <?xml
+			 * On poursuit en écrivant toute la suite des paquets.
+			 */
+
+			shift=strstr(buffer_out,"<?xml");
+
+			size_shift=(int)strcspn(buffer_out,"<?");
+
+			if(write(file_output_app_ext, shift, size_out-size_shift)==-1) {
+				perror("Erreur avec la procedure write()");
+				exit(EXIT_FAILURE);
+			}
 
 			do {
 				memset(buffer_out, 0, TAILLE_BUFFER);
