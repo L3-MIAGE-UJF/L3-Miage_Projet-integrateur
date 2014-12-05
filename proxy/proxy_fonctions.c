@@ -17,6 +17,27 @@
 #include "proxy.h"
 #include "proxy_fonctions.h"
 
+int recup_param_port(int argc, char * argv[]) {
+	int port;
+	int indice;
+
+	if (argc>1) {
+		for(indice=1;indice<argc;indice=indice+2) {
+			if (argv[indice][0]=='-'&&argv[indice][2]=='\0') {
+				switch (argv[indice][1]) {
+					case 'p' :
+						port=atoi(argv[indice+1])%65535;
+					break;
+					
+					default:
+					break;	
+				}
+			}
+		}
+	}
+	return port;
+}
+
 void premier_appel_app_ext(int csock, int sock_cacheujf, char * s_id_post_inf_comp) {
 	int file_temp_app_ext, file_output_app_ext;
 	int pid_execution_app_ext;
