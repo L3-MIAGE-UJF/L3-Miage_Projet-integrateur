@@ -125,19 +125,11 @@ printf("le fils est mort, vive le fils !");
 			 * Partie a optimiser, on récupère les données de google pour en extraire un fichier xml.
 			 * Pour l'instant il s'agit d'un gros tampon,
 			 * l'objectif est d'avoir un while et des recv pour récuperer le fichier complet, nous devons utiliser select+recv
-			 * car un simple read ne permet pas en compte de prendre certains cas dans le protocol http.
+			 * car un simple read ne permet pas de pendre en compte de prendre certains cas dans le protocol http.
+			 * Un do while + read permettrais de lire avec un petit tampon tout le fichier envoyé
+			 * Mais beacoup de choses ne seraient pas supportés, comme les connexions persistantes.
+			 * Et cela est sujet a beaucoup plus d'erreur qu'un do while + select + recv
 			 */
-
-			char gros_tampon[3310720];
-
-			// Reception depuis google du fichier
-
-			if((size_out=recv(sock_cacheujf, gros_tampon, 3310719,0))==-1) {
-				perror("Erreur avec la procedure recv() sock_cacheujf");
-				exit(errno);
-			}
-
-//printf("recu par google : %s", gros_tampon);
 
 			/*
 			 * Ouverture / création du fichier qui va servir a recevoir le fichier xml venant de google
@@ -148,48 +140,22 @@ printf("le fils est mort, vive le fils !");
 				exit(EXIT_FAILURE);
 			}
 
-//fflush(stdout);
+			// Reception depuis google du fichier
 
-			/*
-			 * Bricolage afin de passer l'entête, on calcule la taille du décalage (shift) ainsi que sa position
-			 * pour accéder au début du fichier <xml
-			 * et on écrit la suite dans le fichier
-			 */
+			do {
+				memset(buffer_out, 0, TAILLE_BUFFER);
 
-			/*
-			 * Futur code visant a remplacer le gros tampon et des read pouvant proquer des erreurs
+				if((size_out=read(sock_cacheujf, buffer_out, TAILLE_BUFFER))==-1) {
+					perror("Erreur avec la procedure read() sock_cacheujf");
+					exit(errno);
+				}
 
-			fd_set readfs;
+				if(write(file_output_app_ext, buffer_out, size_out)==-1) {
+					perror("Erreur avec la procedure write()");
+					exit(EXIT_FAILURE);
+				}
 
-			while(1) {
-			   int ret = 0;
-			   FD_ZERO(&readfs);
-			   FD_SET(sock, &readfs);
-			   
-			   if((ret = select(sock + 1, &readfs, NULL, NULL, NULL)) < 0) {
-			      perror("select()");
-			      exit(errno);
-			   }
-
-			   if(ret == 0) {
-			      //ici le code si la temporisation est écoulée
-			   }	
-			   
-			   if(FD_ISSET(sock, readfs)) {
-				// des données sont disponibles - traitement des données
-			   }
-			}
-			*/
-
-			char * shift;
-			shift=strstr(gros_tampon,"<?xml");
-
-			int lol = (int)strcspn(gros_tampon,"<?");
-
-			if(write(file_output_app_ext, shift, size_out-lol)==-1) {
-				perror("Erreur avec la procedure write()");
-				exit(EXIT_FAILURE);
-			}
+			} while (size_out>0&&size_out<TAILLE_BUFFER);
 
 			/*
 			 * On peut fermer le fichier on a fini d'écrirer le fichier xml.
@@ -200,13 +166,13 @@ printf("le fils est mort, vive le fils !");
 
 			close(file_output_app_ext);
 
-			second_appel_app_ext(csock, gros_tampon);
+			second_appel_app_ext(csock);
 
 		break;
 	}
 }
 
-void second_appel_app_ext(int csock, char gros_tampon[3310720]) {
+void second_appel_app_ext(int csock) {
 	int file_output_app_ext_html;
 	
 	int pid_execution_app_ext;
@@ -214,6 +180,7 @@ void second_appel_app_ext(int csock, char gros_tampon[3310720]) {
 
 	char *s_id_post_inf_comp=NULL;
 
+	char buffer_in[TAILLE_BUFFER];
 	int size_in;
 
 	switch(pid_execution_app_ext=fork()) {
@@ -244,19 +211,24 @@ printf("le fils est mort2, vive le fils !");
 				exit(EXIT_FAILURE);
 			}
 
-			// On lit le fichier généré.
+			do {
+				memset(buffer_in, 0, TAILLE_BUFFER);
 
-			if((size_in=read(file_output_app_ext_html, gros_tampon, 3310720))==-1) {
-				perror("Erreur avec la procedure read() file_output_app_ext_html");
-				exit(EXIT_FAILURE);
-			}
+				// On lit le fichier généré.
 
-			// On envoie le contenu lu dans le socket pour le client (Affichage de la page html)
+				if((size_in=read(file_output_app_ext_html, buffer_in, TAILLE_BUFFER))==-1) {
+					perror("Erreur avec la procedure read() file_output_app_ext_html");
+					exit(EXIT_FAILURE);
+				}
 
-			if(send(csock, gros_tampon, size_in, 0) < 0) {
-				perror("Erreur avec la procedure send() csock");
-				exit(errno);
-			}
+				// On envoie le contenu lu dans le socket pour le client (Affichage de la page html)
+
+				if(send(csock, buffer_in, size_in, 0) < 0) {
+					perror("Erreur avec la procedure send() csock");
+					exit(errno);
+				}
+
+			} while (size_in>0&&size_in<TAILLE_BUFFER);
 
 			//printf("\n lu dans fichier : %s ", buffer_in);
 		break;
