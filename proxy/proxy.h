@@ -12,5 +12,6 @@
 #define OUTPUT_APP_EXT_HTML "../nodejs/pageCabinet.html"
 #define OUTPUT_APP_EXT_TMP "tmp/output_app_ext.tmp"
 #define APP_EXT_TEST_PARSER "../infirmiere/Serveur/XML_Process/testParsers"
+#define CHEMIN_XML_PROCESS_DATA "../infirmiere/Serveur/XML_Process/data/"
 
 #endif
