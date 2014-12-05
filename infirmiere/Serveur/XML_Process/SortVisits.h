@@ -20,7 +20,7 @@ public:
     ~SortVisits();
     
     /// Méthode qui fait tout
-    void processDistanceMatrix(char * inputFileName, char * outputFileName, int id, char * googleAnswer);
+    void processDistanceMatrix(char * che, char * outputFileName, int id, char * googleAnswer);
     
     /// Faire le job...
     void modifyFile(const char * inputFilename, std::vector<std::string> * adresses, const char * outputFilename);
@@ -31,4 +31,5 @@ public:
 protected:
     std::string getPatientNodeAdresse(xmlpp::Node * adresseNode);
     xmlpp::Element * findAdresseInMap(std::string sortedAdresse, std::map<std::string, xmlpp::Element *> map);
+    char * chemin;
 };

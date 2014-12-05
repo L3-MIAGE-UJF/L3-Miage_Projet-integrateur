@@ -9,7 +9,7 @@ and open the template in the editor.
 <ns1:cabinet
         xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
         xmlns:ns1='http://www.ujf-grenoble.fr/l3miage/cabinet'
-        xsi:schemaLocation='http://www.ujf-grenoble.fr/l3miage/cabinet ../xsd/cabinetInfirmier.xsd'>
+        xsi:schemaLocation='http://www.ujf-grenoble.fr/l3miage/cabinet cabinetInfirmier.xsd'>
     
     <ns1:nom>Soins à Grenoble</ns1:nom>
     <ns1:adresse>

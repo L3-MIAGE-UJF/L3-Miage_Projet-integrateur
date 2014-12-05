@@ -4,7 +4,12 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<ns1:cabinet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns1="http://www.ujf-grenoble.fr/l3miage/cabinet" xsi:schemaLocation="http://www.ujf-grenoble.fr/l3miage/cabinet cabinetInfirmier.xsd">
+
+
+<ns1:cabinet
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns:ns1='http://www.ujf-grenoble.fr/l3miage/cabinet'
+        xsi:schemaLocation='http://www.ujf-grenoble.fr/l3miage/cabinet ../xsd/cabinetInfirmier.xsd'>
     
     <ns1:nom>Soins à Grenoble</ns1:nom>
     <ns1:adresse>
@@ -34,32 +39,29 @@ and open the template in the editor.
         </ns1:infirmier>
         
         <ns1:patients>
-            
-            
-            
-            
-            
-            
-            
-                     
-        <ns1:patient xmlns:ns1="http://www.ujf-grenoble.fr/l3miage/cabinet" id="103">
-                <ns1:nom>Pien</ns1:nom>
-                <ns1:prénom>Oscare</ns1:prénom>
+            <ns1:patient id="101">
+                <ns1:nom>Aire</ns1:nom>
+                <ns1:prénom>Axel</ns1:prénom>
                 <ns1:sexe>M</ns1:sexe>
-                <ns1:naissance>1975-10-25</ns1:naissance>
-                <ns1:numéro>175107306569267</ns1:numéro>
+                <ns1:naissance>1993-06-13</ns1:naissance>
+                <ns1:numéro>193061305545319</ns1:numéro>
                 <ns1:adresse>
-                    <ns1:rue>rue Casimir Brenier</ns1:rue>
+                    <ns1:etage>4</ns1:etage>
+                    <ns1:numero>46</ns1:numero>
+                    <ns1:rue>avenue Felix Viallet</ns1:rue>
                     <ns1:ville>Grenoble</ns1:ville>
-                    <ns1:codePostal>38000</ns1:codePostal>
-                </ns1:adresse>
+                    <ns1:codePostal>38031</ns1:codePostal>
+                </ns1:adresse>             
                 <ns1:visite date="2014-12-08" intervenant="001">
-                    <ns1:acte id="101"/>                    
+                    <ns1:acte id="109"/>                    
                 </ns1:visite>
-                <!-- Oscare est née le 25 octobre 75 en France, à Chambéry 
-                (n° 65 dans la Savoie) Il s'agissait de la 692e naissance. -->
+                <!-- Homme, né en juin 93 en france, Marseille (n°55 en bouche
+                 du rhone) 453e naissance -->
                 
-            </ns1:patient><ns1:patient xmlns:ns1="http://www.ujf-grenoble.fr/l3miage/cabinet" id="102">
+            </ns1:patient>
+            
+            
+            <ns1:patient id="102">
                 <ns1:nom>Orouge</ns1:nom>
                 <ns1:prénom>Elvire</ns1:prénom>
                 <ns1:sexe>M</ns1:sexe>
@@ -78,7 +80,28 @@ and open the template in the editor.
                 (n° 23 dans le rhône), il s'agissait de la 52e naissance dans 
                 cette ville -->
                 
-            </ns1:patient><ns1:patient xmlns:ns1="http://www.ujf-grenoble.fr/l3miage/cabinet" id="104">
+            </ns1:patient>
+            
+            <ns1:patient id="103">
+                <ns1:nom>Pien</ns1:nom>
+                <ns1:prénom>Oscare</ns1:prénom>
+                <ns1:sexe>M</ns1:sexe>
+                <ns1:naissance>1975-10-25</ns1:naissance>
+                <ns1:numéro>175107306569267</ns1:numéro>
+                <ns1:adresse>
+                    <ns1:rue>rue Casimir Brenier</ns1:rue>
+                    <ns1:ville>Grenoble</ns1:ville>
+                    <ns1:codePostal>38000</ns1:codePostal>
+                </ns1:adresse>
+                <ns1:visite date="2014-12-08" intervenant="001">
+                    <ns1:acte id="101"/>                    
+                </ns1:visite>
+                <!-- Oscare est née le 25 octobre 75 en France, à Chambéry 
+                (n° 65 dans la Savoie) Il s'agissait de la 692e naissance. -->
+                
+            </ns1:patient>
+            
+            <ns1:patient id="104">
                 <ns1:nom>Kapoëtla</ns1:nom>
                 <ns1:prénom>Xavier</ns1:prénom>
                 <ns1:sexe>M</ns1:sexe>
@@ -88,7 +111,7 @@ and open the template in the editor.
                     <ns1:numero>25</ns1:numero>
                     <ns1:rue>rue des Martyrs</ns1:rue>
                     <ns1:ville>Grenoble</ns1:ville>
-                    <ns1:codePostal>38000</ns1:codePostal>
+                    <ns1:codePostal>38042</ns1:codePostal>
                 </ns1:adresse>  
                 <ns1:visite date="2014-12-08" intervenant="001">
                     <ns1:acte id="111"/>                    
@@ -97,7 +120,8 @@ and open the template in the editor.
                 en France, à Bordeaux (n° 63 dans la Gironde).
                 Il s'agi de la 35e naissance. -->
                 
-            </ns1:patient></ns1:patients>
+            </ns1:patient>         
+        </ns1:patients>
       
     </ns1:infirmiers>   
 </ns1:cabinet>

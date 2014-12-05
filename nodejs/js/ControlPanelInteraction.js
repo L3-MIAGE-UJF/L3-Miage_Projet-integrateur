@@ -5,6 +5,8 @@ define(['utils'
                 createPatient: function(patientxml) {
                     var pat = document.createElement("div");
                     pat.innerHTML = patientxml.querySelector('nom').textContent;
+                    pat.innerHTML += " ";
+                    pat.innerHTML += patientxml.querySelector('prénom').textContent;
                     pat.draggable = true;
                     pat.dataset.secu = patientxml.querySelector('numéro').textContent;
                     pat.className = "patient";
@@ -188,7 +190,8 @@ define(['utils'
                                         //Créer 1 ligne dans le tableau HTML pour cet infirmier
                                         var ligneHTML = document.createElement("tr");
                                         ligneHTML.innerHTML = '<td class="infirmier"></td><td class="tournée"></td>';
-                                        ligneHTML.querySelector('td.infirmier').innerHTML = infirmier.querySelector('nom').textContent;
+                                        ligneHTML.querySelector('td.infirmier').innerHTML = (""+infirmier.querySelector('nom').textContent +" "+infirmier.querySelector('prénom').textContent);
+                                        
                                         var tdTournée = ligneHTML.querySelector('td.tournée');
                                         // tdTournée doit être définit comme zone de drop
                                         var tdTournee = ligneHTML.querySelector('td.tournée');

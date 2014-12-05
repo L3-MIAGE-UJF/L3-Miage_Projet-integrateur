@@ -1,27 +1,37 @@
 <!doctype html>
 
 <html lang="fr">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Le Voyageur de Santé</title>
-		<link rel="stylesheet" type="text/css" href="css/presentation.css"/>
-	</head>
-	<body>
-		<h1>Le Voyageur de Santé</h1>
-		<form id="secretaire" name="input" action="/" method="POST">
-			<input value="Secretaire" type="hidden" name="login"></input>
-			<input type="submit" value="Connectez vous en tant que secrétaire"/>
-		</form>
-	
-		<form id="infirmier" name="input" action="/INFIRMIERE" method="POST">
-			<div>Connectez vous en tant qu'infirmier</div>
-			<span class="login">
-				Identifiant : 
-				<input list="logins" type="text" name="id"></input>
-			</span>
-			<datalist id="logins">
-			</datalist>
-			<input type="submit" value="Connection"/>
-		</form>
-	</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Le Voyageur de Santé</title>
+        <link rel="stylesheet" type="text/css" href="css/presentation.css"/>
+    </head>
+    <body>
+        <!--<h1>Le Voyageur de Santé</h1>
+        <div>La santé, mais chez vous...</div>-->
+        <div class="image">
+            <img class="inf" src="/css/image/infirmiere.jpg" alt="Mountain View" style="width:300px">
+            <img class="cache" src="/css/image/cache.png" alt="Mountain View" style="width:300px">
+            <img class="ban" src="/css/image/Sante.png" alt="Mountain View" >
+        </div>
+        <div class ="menu">
+            <form id="secretaire" name="input" action="/" method="POST">
+                <div><h4>Connectez vous en tant que secrétaire</h4></div>
+                <input value="Secretaire" type="hidden" name="login"></input>
+                <input class="bouton" type="submit" value="Connection"/>
+            </form>
+
+            <form id="infirmier" name="input" action="/INFIRMIERE" method="POST">
+                <div><h4>Connectez vous en tant qu'infirmier</h4></div>
+                <span class="login">
+                    Identifiant : 
+                    <input list="logins" type="text" name="id"></input>
+                </span>
+                <datalist id="logins">
+                </datalist>
+                <input class="bouton" type="submit" value="Connection"/>
+            </form>
+        </div>
+
+    </body>
 </html>

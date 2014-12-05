@@ -13,7 +13,7 @@ bool Existe(int E, vector<int> const& L);
 vector<int> kru(std::vector<std::vector<int> > *G)
 
 
-{std::cout << "mainmainmain" << std::endl;
+{
     //vector<vector<int> > G(9);
     //for (int i = 0; i < G.size(); i++)
     //    G[i].assign(G.size(), 0);
@@ -49,11 +49,11 @@ vector<int> kru(std::vector<std::vector<int> > *G)
 
 	vector<int> L;				//Creation de la liste L
 
-	printf("lancement parcour\n");
+    //printf("lancement parcour\n");
 	L = parcour(0,kruskal.acv,L); 		//debut de la recusivité avec le sommet 0
 	L.push_back(0);                     //rajoute le point pour le retour au point de départ.
-	for(int i = 0;i<L.size();i++)
-		printf(" L[%d]= %d \n", i, L[i]);
+    //for(int i = 0;i<L.size();i++)
+    //	printf(" L[%d]= %d \n", i, L[i]);
 
 
     return L;
@@ -66,9 +66,9 @@ vector<int> parcour(int Scourant, vector<vector<int> > const& M, vector<int> L)
 	vector<int> nbFils;
 	int i;
 	L.push_back(Scourant);					//ajout de du sommet courant dans la liste
-	printf("ajout du sommet courant %d\n", Scourant);
+    //printf("ajout du sommet courant %d\n", Scourant);
 	nbFils = CompteurFils(Scourant, M);			//renvoie la liste des sommets adjacent au sommet courant
-	printf("recherche du nombre de fils\n");
+    //printf("recherche du nombre de fils\n");
 		for(i = 0;i<nbFils.size(); i++)
 		{
 			if(!Existe(nbFils[i],L))		//regarde si le sommet n'est pas déja visité

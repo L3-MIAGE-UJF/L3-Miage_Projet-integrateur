@@ -4,37 +4,36 @@ var DIVAL = 10.0;
 
 var totalFacture = 0.0;
 
-function afficherFacture(prenom, nom, actes)
+function afficherFacture( nom, prenom, actes)
 {
     totalFacture = 0.0;
     var text = "<html>\n";
     text +=
             "    <head>\n\
             <title>Facture</title>\n\
-            <link rel='stylesheet' type='text/css' href='css/mystyle.css'/>\n\
+            <link rel='stylesheet' type='text/css' href='css/style.css'/>\n\
          </head>\n\
          <body>\n";
 
 
-   // text += "Facture pour " + prenom + " " + nom +    patients.toString() + "<br/>";
+  
 
 
     // Trouver l'adresse du patient
-    var xmlDoc = loadXMLDoc("/home/s/stevensm/l3/lw/Projet/html/data/cabinetInfirmier.xml");
-    var patients = xmlDoc.getElementsByTagName("patient");
+    var xmlDoc = loadXMLDoc("../Serveur/ML_Process/data/cabinetInfirmier-sorted.xml");
+    var patients = xmlDoc.getElementsByTagName("ns1:patient");
     
-    text += "Facture pour " + prenom + " " + nom +    patients.toString() + "<br/>";
+    text += "<h1>Facture pour " + prenom + " " + nom +   "<br/></h1>";
     var i = 0;
     var found = false;
-        text += "   " + patients.length + "    ";
     while ((i < patients.length) && (!found)) {
-        text += "........";
+        
         var patient = patients[i];
-        var localNom = patient.getElementsByTagName("nom")[0].childNodes[0].nodeValue;
-        var localPrenom = patient.getElementsByTagName("prénom")[0].childNodes[0].nodeValue;
-        if ((nom === localNom) && (prenom === localPrenom)) {
+        var localNom = patient.getElementsByTagName("ns1:nom")[0].childNodes[0].nodeValue;
+        var localPrenom = patient.getElementsByTagName("ns1:prénom")[0].childNodes[0].nodeValue;
+				
+        if ((nom == localNom) && (prenom == localPrenom)) {
             found = true;
-            
         }
         else {
             i++;
@@ -43,15 +42,15 @@ function afficherFacture(prenom, nom, actes)
 
 
     if (found) {
-        text += "Adresse: ";
+        text += "<h2>Adresse: ";
         // On récupère l'adresse du patient
         var adresse;
-        adresse = patient.getElementsByTagName("adresse")[0].childNodes[0].nodeValue;
+        adresse = patient.getElementsByTagName("ns1:adresse")[0];
         text += adresseToText(adresse);
-        text += "<br/>";
+        text += "</h2><br/>";
 
         var nSS = "0";
-        nSS = patient.getElementsByTagName("numero")[0].toString();
+        nSS = patient.getElementsByTagName("ns1:numéro")[0].childNodes[0].nodeValue;
 
         text += "Numéro de sécurité sociale: " + nSS + "\n";
     }
@@ -66,7 +65,7 @@ function afficherFacture(prenom, nom, actes)
     text += "</tr>";
 
     var acteIds = actes.split(" ");
-    for (var j = 0; j < acteIds.length; j++) {
+    for (var j = 0; j < acteIds.length-1; j++) {
         text += "<tr>";
         var acteId = acteIds[j];
         text += acteTable(acteId);
@@ -90,13 +89,13 @@ function adresseToText(adresse)
 {
     
     var str = "";
-    var addr = adresse.firstChild;
-    do 
-    {
-        str =+ " " + addr.getTextContent();
-        
-    }while(addr.nextSibling !==null);
-        
+    //var addr = adresse.getChildNode[0];
+	var i;
+	for(i = 0; i<adresse.childElementCount; i++)
+	{
+		str += " " + adresse.children[i].childNodes[0].nodeValue;
+	}
+	        
     // Mise en forme de l'adresse du patient
     // A compléter
 
@@ -108,8 +107,8 @@ function acteTable(acteId)
 {
     var str = "";
 
-    var xmlDoc = loadXMLDoc("data/actes.xml");
-    var actes;
+    var xmlDoc = loadXMLDoc("actes.xml");
+    var actes = xmlDoc.getElementsByTagName("acte");
     // actes = récupérer les actes de xmlDoc
 
     // Clé de l'acte (3 lettres)
@@ -126,7 +125,7 @@ function acteTable(acteId)
     var intitule;
 
     // Tarif = (lettre-clé)xcoefficient (utiliser les constantes 
-    // var AMIVAL = 3.15; var AISVAL = 2.65; et var DIVAL = 10.0;)
+    // var AMIVAL = 3.15; var AISVAL = 2.65;  var DIVAL = 10.0;
     // (cf  http://www.infirmiers.com/votre-carriere/ide-liberale/la-cotation-des-actes-ou-comment-utiliser-la-nomenclature.html)      
     var tarif = 0.0;
 
@@ -135,27 +134,51 @@ function acteTable(acteId)
     var found = false;
 
 // A dé-commenter dès que actes aura le bon type...
-//    while ((i < actes.length) && (!found)) {
+    while ((i < actes.length) && (!found)) {
     // A compléter (cf méthode plus haut)
-//        i++;
-//    }
+        var acte = actes[i];
+        var id = acte.getAttribute("id");
+        
+		if (id == acteId){
+            found = true;
+        }
+        else {
+            i++;
+        }
+    }
 
     if (found) {
-        // A compléter
-//        cle = ;
-//        coef = ;
-//        typeId = ;
-//        type = ;
-//        intitule = ;
-//        tarif = ;
+        cle = acte.getAttribute("clé");
+        coef = acte.getAttribute("coef");
+        typeId = acte.getAttribute("type");
+		
+		
+		
+        var types = xmlDoc.getElementsByTagName("type");
+		
+		for(i = 0; i<types.length ; i++)
+		{
+			if(typeId === types[i].getAttribute("id"))
+				type = types[i].childNodes[0].nodeValue;
+		}
+        
+		intitule = acte.childNodes[0].nodeValue;
+        
+		if(cle === "AMI")
+			tarif = AMIVAL * coef;
+		else if (cle === "DI")
+			tarif = DIVAL * coef;
+		else if (cle === "AIS")
+			tarif = AISVAL * coef;
+			
     }
 
     // A modifier
-    str += "<td>" + "???" + "</td>";
-    str += "<td>" + "???" + "</td>";
-    str += "<td>" + "???" + "</td>";
-    str += "<td>" + "???" + "</td>";
-    str += "<td>" + "???" + "</td>";
+    str += "<td>" + type + "</td>";
+    str += "<td>" + cle + "</td>";
+    str += "<td>" + intitule + "</td>";
+    str += "<td>" + coef + "</td>";
+    str += "<td>" + tarif + "</td>";
     totalFacture += tarif;
 
     return str;

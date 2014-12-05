@@ -26,13 +26,12 @@ SortVisits::~SortVisits() {
 }
 extern vector<int> kru(std::vector<std::vector<int> > *G);
 
-void SortVisits::processDistanceMatrix(char * inputFileName, char * outputFileName, int id, char * googleAnswer) {
+void SortVisits::processDistanceMatrix(char * che, char * outputFileName, int id, char * googleAnswer) {
     FromGoogleMapXMLToDistanceTable googleMapParser;
     std::vector<std::string> * adresses;
-
+    chemin = che;
     std::vector<std::string> * adressesTrie;
     adressesTrie = new std::vector<std::string>();
-
     std::vector< std::vector<int> > * distances;
 
     googleMapParser.parseDocument(googleAnswer);
@@ -41,6 +40,8 @@ void SortVisits::processDistanceMatrix(char * inputFileName, char * outputFileNa
     vector<int> L;
     // Ici, il faut appeler la fonction développée en RO
 
+    std::string fichier = "cabinetInfirmier.xml";
+    std::string inputFileName =che + fichier;
 
     for (unsigned int ligne = 0; ligne < adresses->size(); ligne++)
     {
@@ -50,6 +51,7 @@ void SortVisits::processDistanceMatrix(char * inputFileName, char * outputFileNa
             (distances->at(colonne)).at(ligne) = (distances->at(ligne)).at(colonne);
         }
     }
+
     L = kru(distances);
 
 
@@ -58,13 +60,15 @@ void SortVisits::processDistanceMatrix(char * inputFileName, char * outputFileNa
         adressesTrie->push_back(adresses->at(L[i]));
     }
 
-    std::string inputStd(inputFileName);
-    std::string tmpFileName = inputStd.substr(0, inputStd.find_last_of("."));
+    std::string inputStd("cabinetInfirmier");
+
+    std::string tmpFileName = che + inputStd.substr(0, inputStd.find_last_of("."));
+
     tmpFileName += "-sorted.xml";
 
     char *tmp = &tmpFileName[0];
 
-    modifyFile(inputFileName, adressesTrie, tmpFileName.c_str());
+    modifyFile(inputFileName.c_str(), adressesTrie, tmpFileName.c_str());
     saveXHTMLFile(tmp, outputFileName, id);
 
 }
@@ -114,7 +118,7 @@ std::string SortVisits::getPatientNodeAdresse(xmlpp::Node * adresseNode) {
 }
 /// Faire le job...
 void SortVisits::modifyFile(const char * inputFilename, std::vector<std::string> * adresses, const char * outputFilename) {
-    std::cout << " Modifying xml file..." << std::endl;
+    //std::cout << " Modifying xml file..." << std::endl;
     xmlpp::DomParser parser;
     parser.parse_file(inputFilename);
     if(parser)
@@ -141,7 +145,7 @@ void SortVisits::modifyFile(const char * inputFilename, std::vector<std::string>
               // Récupérer l'adresse du patient en question
               xmlpp::Node * adresseNode = patient->find("cab:adresse", nsMap).at(0);
               std::string adresse = getPatientNodeAdresse(adresseNode);
-              std::cout << adresse  << std::endl;
+              //std::cout << adresse  << std::endl;
               xmlpp::Document * newDoc = new xmlpp::Document();
               patientsAdresses[adresse] = newDoc->create_root_node_by_import(patient);
               patientsNode->remove_child(patient);              
@@ -156,7 +160,7 @@ void SortVisits::modifyFile(const char * inputFilename, std::vector<std::string>
               std::string sortedAdresse = (*it);
               xmlpp::Element * element = findAdresseInMap(sortedAdresse, patientsAdresses);
               if (element != NULL) {
-                  std::cout << "Child found !!, element name: " << std::string(element->get_name()) << std::endl;
+                  //std::cout << "Child found !!, element name: " << std::string(element->get_name()) << std::endl;
                   patientsNode->import_node(element);
               }
           }
@@ -170,7 +174,7 @@ void SortVisits::modifyFile(const char * inputFilename, std::vector<std::string>
 xmlpp::Element * SortVisits::findAdresseInMap(std::string sortedAdresse, std::map<std::string, xmlpp::Element *> map) {
     std::string sortedLower = sortedAdresse;
     std::transform(sortedLower.begin(), sortedLower.end(), sortedLower.begin(), ::tolower);
-    std::cout << std::endl << "Searching for adresse: " << sortedLower << std::endl;
+    //std::cout << std::endl << "Searching for adresse: " << sortedLower << std::endl;
 
     xmlpp::Element * element = NULL;
     std::map<std::string, xmlpp::Element *>::iterator it = map.begin();
@@ -178,11 +182,11 @@ xmlpp::Element * SortVisits::findAdresseInMap(std::string sortedAdresse, std::ma
         std::string mapLower = (it->first);
         std::transform(mapLower.begin(), mapLower.end(), mapLower.begin(), ::tolower);
     
-        std::cout << "it adresse:     " << mapLower << std::endl;
+        //std::cout << "it adresse:     " << mapLower << std::endl;
         
         if (sortedLower.find(mapLower) != std::string::npos) {
             element = it->second;
-            std::cout << "Found !!" << std::endl;
+           // std::cout << "Found !!" << std::endl;
         }
         it++;
     }    
@@ -205,7 +209,7 @@ void SortVisits::saveXHTMLFile(char * inputXMLFile, char * outputXHTMLFile, int 
     char * nurseId = new char[4];
     sprintf(nurseId, "00%d", id);
         
-    std::cout <<"Save XHTML File: input " << inputXMLFile << ", output: " << outputXHTMLFile << " with nurseId: " << nurseId << std::endl;
+   // std::cout <<"Save XHTML File: input " << inputXMLFile << ", output: " << outputXHTMLFile << " with nurseId: " << nurseId << std::endl;
 
 	params[0] = "destinedId";
     params[1] = nurseId;
@@ -213,9 +217,16 @@ void SortVisits::saveXHTMLFile(char * inputXMLFile, char * outputXHTMLFile, int 
     
 	xmlSubstituteEntitiesDefault(1);
 	xmlLoadExtDtdDefaultValue = 1;
-    cur = xsltParseStylesheetFile((const xmlChar *) ("../infirmiere/Serveur/XML_Process/data/cabinetToInfirmier.xsl"));
 
-	doc = xmlParseFile(inputXMLFile);
+//    std::string fich1 = "cabinetInfirmier.xml";
+    std::string fich2 = "cabinetToInfirmier.xsl";
+
+//    std::string fichier1 =chemin + fich1;
+    std::string fichier2 =chemin + fich2;
+
+    cur = xsltParseStylesheetFile((const xmlChar *) (fichier2.c_str()));
+
+    doc = xmlParseFile(inputXMLFile);
     
 	res = xsltApplyStylesheet(cur, doc, params);
     outFile=(fopen(outputXHTMLFile,"w"));

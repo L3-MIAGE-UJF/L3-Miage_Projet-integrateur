@@ -67,7 +67,8 @@ int main(int argc, char * argv[]) {
 	int size_in, size_out;
 
 	int file_temp_app_ext, file_output_app_ext, file_output_app_ext_html;
-	char *s_id_post_inf;
+	char *s_id_post_inf=NULL;
+	char *s_id_post_inf_comp=NULL;
 	int status_pid_app_ext;
 
 	/**
@@ -284,12 +285,18 @@ printf("Buffer out : \n %s\n", buffer_out);
 					 * On recoit une requete /INFIRMIERE on va extraire l'id et lancer l'application
 					 */
 
-					printf("\nBuffer recu : \n %s \n \n", buffer_in);
+					//printf("\nBuffer recu : \n %s \n \n", buffer_in);
 					
-					if((s_id_post_inf=strstr(buffer_in,"id="))==NULL) {
+					s_id_post_inf=strstr(buffer_in,"id=");
+
+					if(s_id_post_inf==NULL) {
 						printf("\n Attention ! Pas d'id trouvé \n");
+						exit(EXIT_FAILURE);
 					}
 					else {
+						s_id_post_inf_comp=malloc(sizeof(char)*strlen(s_id_post_inf));
+						strncpy(s_id_post_inf_comp,s_id_post_inf+3,strlen(s_id_post_inf));
+fflush(stdout);printf("\n-----\n 1er appel : %s\n\n",s_id_post_inf_comp);fflush(stdout);
 						switch(pid_execution_app_ext=fork()) {
 							case 0 :
 								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
@@ -298,12 +305,12 @@ printf("Buffer out : \n %s\n", buffer_out);
 
 								close(file_temp_app_ext);
 
-								execl(APP_EXT_TEST_PARSER,"testParsers", "1", s_id_post_inf+3,(char *)0);
+								execl(APP_EXT_TEST_PARSER,"testParsers", "1", s_id_post_inf_comp, "../infirmiere/Serveur/XML_Process/data/",(char *)0);
 								exit(EXIT_FAILURE); // En cas d'echec d'execl
 							break;
 
 							default :
-
+//sleep(2);
 								printf("en attente mort execution app cpp\n");
 
 								waitpid(pid_execution_app_ext, &status_pid_app_ext, 0);
@@ -317,13 +324,13 @@ printf("Buffer out : \n %s\n", buffer_out);
 									exit(EXIT_FAILURE);
 								}
 
-								printf("\n lu dans fichier : %s ", buffer_in);
+								//printf("\n lu dans fichier : %s ", buffer_in);
 
 								memset(buffer_out, 0, TAILLE_BUFFER);
 								strcpy(buffer_out, "GET ");
 								strncpy(buffer_out+strlen(buffer_out), buffer_in, size_in);
 								
-								printf("\nbuffer envoyé a google :\n%s", buffer_out);
+								//printf("\nbuffer envoyé a google :\n%s", buffer_out);
 
 								// Envoi de la requete a google map
 								if(send(sock_cacheujf, buffer_out, strlen(buffer_out), 0) < 0) {
@@ -332,13 +339,14 @@ printf("Buffer out : \n %s\n", buffer_out);
 								}
 								char gros_tampon[3310720];
 								//reception
-								if((size_out=recv(sock_cacheujf, gros_tampon, 3310720,0))==-1) {
+								if((size_out=recv(sock_cacheujf, gros_tampon, 3310719,0))==-1) {
 									perror("Erreur avec la procedure recv() in ");
 									exit(errno);
 								}
-printf("recu par google : %s", gros_tampon);
+//printf("recu par google : %s", gros_tampon);
 								file_output_app_ext = open(OUTPUT_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
 
+//fflush(stdout);
 								char * shift;
 								shift=strstr(gros_tampon,"<?xml");
 
@@ -353,17 +361,18 @@ printf("recu par google : %s", gros_tampon);
 
 								switch(pid_execution_app_ext=fork()) {
 									case 0 :
-										execl(APP_EXT_TEST_PARSER,"testParsers", "2", s_id_post_inf+3,(char *)0);
+printf("\n-----\n 2eme appel : %s\n\n",s_id_post_inf_comp);fflush(stdout);
+										execl(APP_EXT_TEST_PARSER,"testParsers", "2", s_id_post_inf_comp, "../infirmiere/Serveur/XML_Process/data/",(char *)0);
 										exit(EXIT_FAILURE); // En cas d'echec d'execl
 									break;
 
 									default :
-
-										printf("en attente mort execution app cpp\n");
+//sleep(2);
+										printf("en attente mort2 execution app cpp\n");
 
 										waitpid(pid_execution_app_ext, &status_pid_app_ext, 0);
 
-										printf("le fils est mort, vive le fils !");
+										printf("le fils est mort2, vive le fils !");
 
 										file_output_app_ext_html = open(OUTPUT_APP_EXT_HTML, O_RDWR);
 

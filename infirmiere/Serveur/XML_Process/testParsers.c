@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdlib.h>
-#include <curl/curl.h>
 #include <stdio.h>
 #include "FromXMLToGoogleMapHTTPRequest.h"
 #include "FromGoogleMapXMLToDistanceTable.h"
@@ -14,9 +13,23 @@ int main(int argc, char *argv[]) {
         std::cout << "> ./testParsers data/cabinetInfirmier.xml 001" << std::endl << std::endl;
         return 1;
     }
-    std::string file ="../infirmiere/Serveur/XML_Process/data/cabinetInfirmier.xml";
+    char *chemin = argv[3];
+
+    std::string che = std::string(chemin);
+
+    std::string file =che + "cabinetInfirmier.xml";
     char *filename = &file[0];
+
+    std::string file2 = che + "reponseGoogle.xml";
+    char* google = &file2[0];
+
+    std::string file3 = che + "pageCabinet.html";
+    char* pageHtml = &file3[0];
+
+
     //char * filename = file.c_str();
+
+
 
     char * id = argv[2];
     int idInt = 2;
@@ -56,9 +69,11 @@ int main(int argc, char *argv[]) {
                 break;
                 
             case 2: // créer un tableau c++ à partir du fichier XML renvoyé par GoogleMap
-                    dataBaseParser.parseDocument(filename);
+                  
+		std::cout << id<<std::endl;
+		 dataBaseParser.parseDocument(filename);
                 //creation du tableau
-                    exec.processDistanceMatrix(filename,"../infirmiere/Serveur/XML_Process/data/pageCabinet.html",atoi(id),"../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml");
+                    exec.processDistanceMatrix(chemin,pageHtml,atoi(id),google);
                 break;
          }
     }
