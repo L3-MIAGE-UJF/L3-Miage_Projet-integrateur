@@ -32,7 +32,7 @@ int main(int argc, char * argv[]) {
 	int port = 80;
 	int indice;
 
-	int pid_fils, pid_execution_app_ext;
+	int pid_fils;
 
 	int sock, csock, sock_nodejs, sock_cacheujf;
 
@@ -55,12 +55,10 @@ int main(int argc, char * argv[]) {
 	char chaine_intercept_inf[]="/INFIRMIERE";
 	char chaine_intercept_gest[] = "interface-infirmiere";
 
-	int size_in, size_out;
+	int size_in;//, size_out;
 
-	int file_temp_app_ext, file_output_app_ext;
 	char *s_id_post_inf=NULL;
 	char *s_id_post_inf_comp=NULL;
-	int status_pid_app_ext;
 
 	/**
 	 * Récupération des paramètres, numéro de port ...
@@ -292,78 +290,7 @@ printf("Buffer out : \n %s\n", buffer_out);
 						s_id_post_inf_comp=malloc(sizeof(char)*strlen(s_id_post_inf));
 						strncpy(s_id_post_inf_comp,s_id_post_inf+3,strlen(s_id_post_inf));
 
-						switch(pid_execution_app_ext=fork()) {
-							case 0 :
-								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
-
-								dup2(file_temp_app_ext, STDOUT_FILENO);
-
-								close(file_temp_app_ext);
-
-								execl(APP_EXT_TEST_PARSER,"testParsers", "1", s_id_post_inf_comp, "../infirmiere/Serveur/XML_Process/data/",(char *)0);
-								exit(EXIT_FAILURE); // En cas d'echec d'execl
-							break;
-
-							default :
-//sleep(2);
-								printf("en attente mort execution app cpp\n");
-
-								waitpid(pid_execution_app_ext, &status_pid_app_ext, 0);
-
-								printf("le fils est mort, vive le fils !");
-
-								if((file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR))==-1) {
-									perror("Erreur lors de l'ouverture de TEMP_APP_EXT");
-									exit(EXIT_FAILURE);
-								}
-
-								if((size_in=read(file_temp_app_ext, buffer_in, TAILLE_BUFFER))==-1) {
-									perror("Erreur avec la procedure read() file_temp_app_ext");
-									exit(EXIT_FAILURE);
-								}
-
-								//printf("\n lu dans fichier : %s ", buffer_in);
-
-								memset(buffer_out, 0, TAILLE_BUFFER);
-								strcpy(buffer_out, "GET ");
-								strncpy(buffer_out+strlen(buffer_out), buffer_in, size_in);
-								
-								//printf("\nbuffer envoyé a google :\n%s", buffer_out);
-
-								// Envoi de la requete a google map
-								if(send(sock_cacheujf, buffer_out, strlen(buffer_out), 0) < 0) {
-									perror("Erreur avec la procedure send() sock_cacheujf");
-									exit(errno);
-								}
-								char gros_tampon[3310720];
-								//reception
-								if((size_out=recv(sock_cacheujf, gros_tampon, 3310719,0))==-1) {
-									perror("Erreur avec la procedure recv() sock_cacheujf");
-									exit(errno);
-								}
-//printf("recu par google : %s", gros_tampon);
-								if((file_output_app_ext = open(OUTPUT_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP))==-1) {
-									perror("Erreur lors de l'ouverture du fichier OUTPUT_APP_EXT");
-									exit(EXIT_FAILURE);
-								}
-
-//fflush(stdout);
-								char * shift;
-								shift=strstr(gros_tampon,"<?xml");
-
-								int lol = (int)strcspn(gros_tampon,"<?");
-
-								if(write(file_output_app_ext, shift, size_out-lol)==-1) {
-									perror("Erreur avec la procedure write()");
-									exit(EXIT_FAILURE);
-								}
-
-								close(file_output_app_ext);
-
-								second_appel_app_ext(csock, gros_tampon);
-
-							break;
-						}
+						premier_appel_app_ext(csock, sock_cacheujf, s_id_post_inf_comp);
 					}
 
 					/*
