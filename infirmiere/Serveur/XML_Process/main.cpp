@@ -40,10 +40,10 @@ vector<int> kru(std::vector<std::vector<int> > *G)
     Kruskal kruskal(*G);
     kruskal.arbre_min(); // calcul de l'arbre min, qui est alors stocké dans kruskal.acv (matrice d'adjacence)
 
-    for (int i = 0; i < G->size(); i++)
-        for (int j = 0; j < i; j++)
-            if (kruskal.acv[i][j] != 0)
-            cout << i << " - " << j <<endl;
+//    for (int i = 0; i < G->size(); i++)
+//        for (int j = 0; j < i; j++)
+//            if (kruskal.acv[i][j] != 0)
+//            cout << i << " - " << j <<endl;
 
 /**************************************************************/
 

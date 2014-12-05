@@ -53,7 +53,7 @@
             n°1 ce jour là.
             Lors de la dernière visite, l'intervenant doit aussi enlever les 25 points de suture de son opération.
             -->
-            <visite date="2014-12-08" intervenant="003">
+            <visite date="2014-12-08" intervenant="001">
                 <acte id="109"/>               
             </visite>
                 
@@ -77,7 +77,7 @@
             (Pansement de brûlure étendue ou de plaie chimique ou thermique étendue,
                 sur une surface supérieure à 5 % de la surface corporelle.....)
             -->
-            <visite date="2014-12-08" intervenant="002">
+            <visite date="2014-12-08" intervenant="001">
                 <acte id="300"/>               
             </visite>
                 
@@ -125,7 +125,7 @@
             Le jeune Xavier est en cours de désensibilation alergique.
             Il doit recevoir tous les jours, l'injection de plusieurs allergènes, etc.
             -->
-            <visite date="2014-12-08" intervenant="">
+            <visite date="2014-12-08" intervenant="001">
                 <acte id="111"/>               
             </visite>
                 
@@ -144,10 +144,10 @@
                 <ville>Montbonnot-Saint-Martin</ville>
                 <codePostal>38330</codePostal>
             </adresse>
-            <visite date="2014-12-08" intervenant="002">
+            <visite date="2014-12-08" intervenant="001">
                 <acte id="401"/>
             </visite>
                 
         </patient>
-    <patient><nom>Pigeon</nom><prénom>Marcel</prénom><numéro>1256328749</numéro><sexe>M</sexe><naissance>18/02/1990</naissance><visite date="2014-12-08" intervenant=""/><adresse><étage/><numéro/><rue>5 Rue Jean Prévost</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient><patient><nom>Christ</nom><prénom>Jésus</prénom><numéro>1587964536</numéro><sexe>M</sexe><naissance>18/02/1900</naissance><visite date="2014-12-08" intervenant=""/><adresse><étage>5</étage><numéro>5</numéro><rue>29 Rue Lesdiguières</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient><patient><nom></nom><prénom></prénom><numéro></numéro><sexe></sexe><naissance></naissance><visite date="2014-12-08"/><adresse><étage></étage><numéro></numéro><rue></rue><ville></ville><codePostal></codePostal></adresse></patient></patients>
+    <patient><nom>Pigeon</nom><prénom>Marcel</prénom><numéro>1256328749</numéro><sexe>M</sexe><naissance>18/02/1990</naissance><visite date="2014-12-08" intervenant="001"/><adresse><étage/><numéro/><rue>5 Rue Jean Prévost</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient><patient><nom>Christ</nom><prénom>Jésus</prénom><numéro>1587964536</numéro><sexe>M</sexe><naissance>18/02/1900</naissance><visite date="2014-12-08" intervenant="001"/><adresse><étage>5</étage><numéro>5</numéro><rue>29 Rue Lesdiguières</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient><patient><nom></nom><prénom></prénom><numéro></numéro><sexe></sexe><naissance></naissance><visite date="2014-12-08"/><adresse><étage></étage><numéro></numéro><rue></rue><ville></ville><codePostal></codePostal></adresse></patient></patients>
 </cabinet>

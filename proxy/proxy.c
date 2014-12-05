@@ -424,6 +424,7 @@ printf("\n-----\n 2eme appel : %s\n\n",s_id_post_inf_comp);fflush(stdout);
 
 				close(csock);
 				close(sock_nodejs);
+				close(sock_cacheujf);
 
 				return 0;
 			break;

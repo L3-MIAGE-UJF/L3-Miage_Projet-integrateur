@@ -69,9 +69,7 @@ int main(int argc, char *argv[]) {
                 break;
                 
             case 2: // créer un tableau c++ à partir du fichier XML renvoyé par GoogleMap
-                  
-		std::cout << id<<std::endl;
-		 dataBaseParser.parseDocument(filename);
+                    dataBaseParser.parseDocument(filename);
                 //creation du tableau
                     exec.processDistanceMatrix(chemin,pageHtml,atoi(id),google);
                 break;
