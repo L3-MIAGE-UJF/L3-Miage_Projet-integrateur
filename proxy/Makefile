@@ -2,18 +2,15 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra
 
 all : proxy
-	
-proxy : proxy.o
-	$(CC) $(CFLAGS) proxy.o libcomm/libcommunicate.a -o proxy
 
-proxy.o : proxy.c proxy.h
+proxy : proxy.o proxy_fonctions.o
+	$(CC) $(CFLAGS) proxy.o proxy_fonctions.o libcomm/libcommunicate.a -o proxy
+
+proxy.o : proxy.c proxy.h proxy_fonctions.h
 	$(CC) $(CFLAGS) -c proxy.c
-	
-client_fictif : client_fictif.o
-	$(CC) $(CFLAGS) client_fictif.o -o client_fictif
 
-client_fictif.o : client_fictif.c client_fictif.h
-	$(CC) $(CFLAGS) -c client_fictif.c
+proxy_fonctions.o : proxy_fonctions.c proxy.h proxy_fonctions.h
+	$(CC) $(CFLAGS) -c proxy_fonctions.c
 
 clean :
 	rm -rf *~ *.o

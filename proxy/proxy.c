@@ -14,17 +14,8 @@
 
 #include "libcomm/communicate.h"
 
-#define SOCKET_ERROR -1
-#define INVALID_SOCKET -1
-
-#define TAILLE_BUFFER 4096
-#define PORT_NODEJS 8046
-#define TEMP_APP_EXT "tmp/tmp_app_ext.tmp"
-#define TEMP_APP_EXT_HTML "tmp/tmp_app_ext_html.tmp"
-#define OUTPUT_APP_EXT "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"
-#define OUTPUT_APP_EXT_HTML "../infirmiere/Serveur/XML_Process/data/pageCabinet.html"
-#define OUTPUT_APP_EXT_TMP "tmp/output_app_ext.tmp"
-#define APP_EXT_TEST_PARSER "../infirmiere/Serveur/XML_Process/testParsers"
+#include "proxy.h"
+#include "proxy_fonctions.h"
 
 void mort_fils() {
 	int status;
@@ -66,7 +57,7 @@ int main(int argc, char * argv[]) {
 
 	int size_in, size_out;
 
-	int file_temp_app_ext, file_output_app_ext, file_output_app_ext_html;
+	int file_temp_app_ext, file_output_app_ext;
 	char *s_id_post_inf=NULL;
 	char *s_id_post_inf_comp=NULL;
 	int status_pid_app_ext;
@@ -294,9 +285,13 @@ printf("Buffer out : \n %s\n", buffer_out);
 						exit(EXIT_FAILURE);
 					}
 					else {
+						/*
+						 * On extrait l'identifiant
+						 */
+
 						s_id_post_inf_comp=malloc(sizeof(char)*strlen(s_id_post_inf));
 						strncpy(s_id_post_inf_comp,s_id_post_inf+3,strlen(s_id_post_inf));
-fflush(stdout);printf("\n-----\n 1er appel : %s\n\n",s_id_post_inf_comp);fflush(stdout);
+
 						switch(pid_execution_app_ext=fork()) {
 							case 0 :
 								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
@@ -317,10 +312,13 @@ fflush(stdout);printf("\n-----\n 1er appel : %s\n\n",s_id_post_inf_comp);fflush(
 
 								printf("le fils est mort, vive le fils !");
 
-								file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR);
+								if((file_temp_app_ext = open(TEMP_APP_EXT, O_RDWR))==-1) {
+									perror("Erreur lors de l'ouverture de TEMP_APP_EXT");
+									exit(EXIT_FAILURE);
+								}
 
 								if((size_in=read(file_temp_app_ext, buffer_in, TAILLE_BUFFER))==-1) {
-									perror("Erreur avec la procedure read()");
+									perror("Erreur avec la procedure read() file_temp_app_ext");
 									exit(EXIT_FAILURE);
 								}
 
@@ -334,17 +332,20 @@ fflush(stdout);printf("\n-----\n 1er appel : %s\n\n",s_id_post_inf_comp);fflush(
 
 								// Envoi de la requete a google map
 								if(send(sock_cacheujf, buffer_out, strlen(buffer_out), 0) < 0) {
-									perror("Erreur avec la procedure send()");
+									perror("Erreur avec la procedure send() sock_cacheujf");
 									exit(errno);
 								}
 								char gros_tampon[3310720];
 								//reception
 								if((size_out=recv(sock_cacheujf, gros_tampon, 3310719,0))==-1) {
-									perror("Erreur avec la procedure recv() in ");
+									perror("Erreur avec la procedure recv() sock_cacheujf");
 									exit(errno);
 								}
 //printf("recu par google : %s", gros_tampon);
-								file_output_app_ext = open(OUTPUT_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP);
+								if((file_output_app_ext = open(OUTPUT_APP_EXT, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP))==-1) {
+									perror("Erreur lors de l'ouverture du fichier OUTPUT_APP_EXT");
+									exit(EXIT_FAILURE);
+								}
 
 //fflush(stdout);
 								char * shift;
@@ -359,37 +360,7 @@ fflush(stdout);printf("\n-----\n 1er appel : %s\n\n",s_id_post_inf_comp);fflush(
 
 								close(file_output_app_ext);
 
-								switch(pid_execution_app_ext=fork()) {
-									case 0 :
-printf("\n-----\n 2eme appel : %s\n\n",s_id_post_inf_comp);fflush(stdout);
-										execl(APP_EXT_TEST_PARSER,"testParsers", "2", s_id_post_inf_comp, "../infirmiere/Serveur/XML_Process/data/",(char *)0);
-										exit(EXIT_FAILURE); // En cas d'echec d'execl
-									break;
-
-									default :
-//sleep(2);
-										printf("en attente mort2 execution app cpp\n");
-
-										waitpid(pid_execution_app_ext, &status_pid_app_ext, 0);
-
-										printf("le fils est mort2, vive le fils !");
-
-										file_output_app_ext_html = open(OUTPUT_APP_EXT_HTML, O_RDWR);
-
-										if((size_in=read(file_output_app_ext_html, gros_tampon, 3310720))==-1) {
-											perror("Erreur avec la procedure read()");
-											exit(EXIT_FAILURE);
-										}
-
-										if(send(csock, gros_tampon, size_in, 0) < 0) {
-											perror("Erreur avec la procedure send()");
-											exit(errno);
-										}
-
-										//printf("\n lu dans fichier : %s ", buffer_in);
- 
-									break;
-								}
+								second_appel_app_ext(csock, gros_tampon);
 
 							break;
 						}
