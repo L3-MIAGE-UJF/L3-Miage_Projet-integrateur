@@ -51,12 +51,12 @@ void FromXMLToGoogleMapHTTPRequest::on_start_element(const Glib::ustring& name, 
     {
         case START:
         {
-            if (name =="ns1:adresse")
+            if (name =="adresse")
             {
                 adresseCourante = new Adresse();
                 state = ADRESSE;
             }
-            if(name =="ns1:visite")
+            if(name =="visite")
             {
                 state=VISITE;
                 if(findAttribute(attributes,"intervenant")==id)
@@ -69,15 +69,15 @@ void FromXMLToGoogleMapHTTPRequest::on_start_element(const Glib::ustring& name, 
         }
         case ADRESSE:
         {
-            if (name == "ns1:numero")
+            if (name == "numéro")
                 state = NUMERO;
-            if (name == "ns1:rue")
+            if (name == "rue")
                 state = RUE;
-            if (name == "ns1:ville")
+            if (name == "ville")
                 state = VILLE;
-            if (name == "ns1:codePostal")
+            if (name == "codePostal")
                 state = CODEPOSTAL;
-            if (name == "ns1:etage")
+            if (name == "étage")
                 state = ETAGE;
             break;
         }

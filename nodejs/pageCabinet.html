@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/Style.css">
 </head>
 <body>
-<script type="text/javascript" src="js/facture.js"></script><h1>Bonjour Annie</h1>
+<script type="text/javascript" src="js/facture.js"></script><h1>Bonjour Eva</h1>
 <h2> vous avez  3 patients</h2>
 <table>
 <tr>
@@ -16,50 +16,52 @@
 <th> Facture </th>
 </tr>
 <tr>
-<td>Pien</td>
 <td>Oscare</td>
+<td>Pien</td>
 <td> rue Casimir Brenier<br>38000 Grenoble</td>
-<td><ul><li> 
+<td><ul>
+<li> 
             Prélèvement par ponction veineuse directe
-        </li></ul></td>
+        </li>
+<li>
+            Inection intraveineuse directe isolée.
+        </li>
+</ul></td>
 <td><button onclick="
-                            openFacture('Pien',
-                            'Oscare',
-                            '101 ');
+                            openFacture('Oscare',
+                            'Pien',
+                            '101 104 ');
                         ">  
                         Facture
                     </button></td>
 </tr>
 <tr>
-<td>Orouge</td>
-<td>Elvire</td>
-<td> Rond-Point de la Croix de Vie<br>38700 La Tronche</td>
+<td>Aire</td>
+<td>Axel</td>
+<td> avenue Félix Viallet<br>38031 Grenoble</td>
 <td><ul><li>
-            Pansement de brûlure étendue ou de plaie chimique ou thermique étendue,
-            sur une surface supérieure à 5% de la surface corporelle.
+            Injection sous-cutanée.
         </li></ul></td>
 <td><button onclick="
-                            openFacture('Orouge',
-                            'Elvire',
-                            '300 ');
+                            openFacture('Aire',
+                            'Axel',
+                            '109 ');
                         ">  
                         Facture
                     </button></td>
 </tr>
 <tr>
-<td>Kapoëtla</td>
-<td>Xavier</td>
-<td>25 rue des Martyrs<br>38000 Grenoble</td>
+<td>Peplu</td>
+<td>Jean</td>
+<td> Avenue de l'Europe<br>38330 Montbonnot-Saint-Martin</td>
 <td><ul><li>
-            Injection d'un ou plusieurs allergènes, poursuivant un traitement
-            d'hyposensibilisation spécifique, selon le protocole écrit, y compris la
-            surveillance, la tenue du dossier de soins, la transmission des informations 
-            au médecin prescripteur.
+            Elaboration de la démache de soins infirmiers à domicile, planification 
+            des soins et rédaction du résumé de la démarche de soins infirimiers.
         </li></ul></td>
 <td><button onclick="
-                            openFacture('Kapoëtla',
-                            'Xavier',
-                            '111 ');
+                            openFacture('Peplu',
+                            'Jean',
+                            '401 ');
                         ">  
                         Facture
                     </button></td>

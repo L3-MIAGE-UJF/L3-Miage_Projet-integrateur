@@ -33,7 +33,6 @@
             453e naissance (clé calculée: 19)-->
             <numéro>193061305545319</numéro>
             <adresse>
-                <étage>4</étage>
                 <numéro>46</numéro>
                 <rue>avenue Félix Viallet</rue>
                 <ville>Grenoble</ville>
@@ -53,7 +52,7 @@
                 n°1 ce jour là.
                 Lors de la dernière visite, l'intervenant doit aussi enlever les 25 points de suture de son opération.
                 -->
-                <visite date="2014-12-08" intervenant="">
+                <visite date="2014-12-08" intervenant="001">
                     <acte id="109"/>               
                 </visite>
                 
@@ -101,7 +100,7 @@
                 jour et injection intraveineuse directe isolée d'anthalgiques les 
                 autres jours.
                 -->
-                <visite date="2014-12-08" intervenant="002">
+                <visite date="2014-12-08" intervenant="003">
                     <acte id="101"/>
                     <acte id="104"/>               
                 </visite>
@@ -117,15 +116,15 @@
             <numéro>110083306303570</numéro>
             <adresse>
                 <numéro>25</numéro>
-                <rue>rue des Martyrs</rue>
+                <rue>Rue des Martyrs</rue>
                 <ville>Grenoble</ville>
-                <codePostal>38042</codePostal>
+                <codePostal>38000</codePostal>
             </adresse>
                 <!-- 
                 Le jeune Xavier est en cours de désensibilation alergique.
                 Il doit recevoir tous les jours, l'injection de plusieurs allergènes, etc.
                 -->
-                <visite date="2014-12-08" intervenant="002">
+                <visite date="2014-12-08" intervenant="001">
                     <acte id="111"/>               
                 </visite>
                 
@@ -144,10 +143,10 @@
                 <ville>Montbonnot-Saint-Martin</ville>
                 <codePostal>38330</codePostal>
             </adresse>
-                <visite date="2014-12-08" intervenant="003">
+                <visite date="2014-12-08" intervenant="001">
                     <acte id="401"/>
                 </visite>
                 
         </patient>
-    <patient><nom>gdgdfg</nom><prénom/><numéro>13514561</numéro><sexe>fgdg</sexe><naissance/><visite date="2014-12-08" intervenant=""/><adresse><étage/><numéro/><rue/><ville/><codePostal/></adresse></patient></patients>
+<patient><nom>jean</nom><prénom>bon</prénom><numéro>123456</numéro><sexe>M</sexe><naissance>06/09/1992</naissance><visite date="2014-12-08" intervenant=""/><adresse><étage/><numéro/><rue>59 Rue Léon Jouhaux</rue><ville>Grenoble</ville><codePostal>38100</codePostal></adresse></patient></patients>
 </cabinet>

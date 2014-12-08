@@ -39,27 +39,28 @@ void SortVisits::processDistanceMatrix(char * che, char * outputFileName, int id
     distances = googleMapParser.getDistances();
     vector<int> L;
     // Ici, il faut appeler la fonction développée en RO
-
+      std::cout<< "haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
     std::string fichier = "cabinetInfirmier.xml";
     std::string inputFileName =che + fichier;
-
+   std::cout<< adresses->size() << std::endl;
     for (unsigned int ligne = 0; ligne < adresses->size(); ligne++)
     {
+     std::cout<< "haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
         for (unsigned int colonne = 0; colonne < ligne; colonne++)
         {
 
             (distances->at(colonne)).at(ligne) = (distances->at(ligne)).at(colonne);
         }
     }
-
+   std::cout<< "haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
     L = kru(distances);
 
-
+   std::cout<< "haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
     for(unsigned int i=0;i<L.size();i++)
     {
         adressesTrie->push_back(adresses->at(L[i]));
     }
-
+   std::cout<< "haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << std::endl;
     std::string tmpFileName("../nodejs/data/cabinetInfirmier");
 
     tmpFileName += "-sorted.xml";
