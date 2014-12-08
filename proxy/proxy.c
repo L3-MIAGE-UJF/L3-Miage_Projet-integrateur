@@ -134,7 +134,7 @@ int main(int argc, char * argv[]) {
 
 				// Connexion au cache UJF
 
-				printf("\nProc fils, connexion a cacheujf et nodejs %d\n\n", port);
+				//printf("\nProc fils, connexion a cacheujf et nodejs %d\n\n", port);
 
 				sock_cacheujf = socket(AF_INET, SOCK_STREAM, 0);
 

@@ -68,8 +68,11 @@ void SortVisits::processDistanceMatrix(char * che, char * outputFileName, int id
       std::cout<< "-----------------------------cabinet infirmier-sorted" << tmpFileName << std::endl;
 
     char *tmp = &tmpFileName[0];
-
+std::cout<< "-----------------------------outputFileName" << outputFileName << std::endl;
     modifyFile(inputFileName.c_str(), adressesTrie, tmpFileName.c_str());
+
+
+
     saveXHTMLFile(tmp, outputFileName, id);
 
 }
@@ -82,8 +85,8 @@ std::string SortVisits::getPatientNodeAdresse(xmlpp::Node * adresseNode) {
     nsMap["cab"] = "http://www.ujf-grenoble.fr/l3miage/cabinet";
 
     // On récupère le numéro s'il existe
-    if (adresseNode->find("cab:numero", nsMap).size() > 0) {
-        node = adresseNode->find("cab:numero", nsMap).at(0);
+    if (adresseNode->find("cab:numéro", nsMap).size() > 0) {
+        node = adresseNode->find("cab:numéro", nsMap).at(0);
         element = dynamic_cast <xmlpp::Element *> (node);
         if (element != NULL) {
             std::string numero = element->get_child_text()->get_content();

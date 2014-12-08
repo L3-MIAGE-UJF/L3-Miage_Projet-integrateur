@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
     char* google = &file2[0];
 
     std::string che3 = "../nodejs/" ;
+    //std::string che3 = "./" ;
 
     std::string file3 = che3 + "pageCabinet.html";
     char* pageHtml = &file3[0];
