@@ -99,7 +99,7 @@ printf("le fils est mort, vive le fils !");
 				exit(EXIT_FAILURE);
 			}
 
-//printf("\n lu dans fichier : %s ", buffer_in);
+printf("\n lu dans fichier premier appel :\n%s ", buffer_in);
 
 			/*
 			 * On prépare une requète pour google map.
@@ -112,7 +112,7 @@ printf("le fils est mort, vive le fils !");
 			strcpy(buffer_out, "GET ");
 			strncpy(buffer_out+strlen(buffer_out), buffer_in, size_in);
 			
-//printf("\nbuffer envoyé a google :\n%s", buffer_out);
+printf("\nbuffer envoyé a google :\n%s", buffer_out);
 
 			/*
 			 * On envoie cette requète a google map a travers le cache UJF
@@ -145,10 +145,14 @@ printf("le fils est mort, vive le fils !");
 
 			memset(buffer_out, 0, TAILLE_BUFFER);
 
+			//Reception du premier paquet
+
 			if((size_out=read(sock_cacheujf, buffer_out, TAILLE_BUFFER))==-1) {
 				perror("Erreur avec la procedure read() sock_cacheujf");
 				exit(errno);
 			}
+
+//Trace affichage retour google
 
 			/*
 			 * On récupère le premier paquet et on ne commence a écrire que la ou commence le fichier xml
@@ -161,7 +165,7 @@ printf("le fils est mort, vive le fils !");
 			size_shift=(int)strcspn(buffer_out,"<?");
 
 			if(write(file_output_app_ext, shift, size_out-size_shift)==-1) {
-				perror("Erreur avec la procedure write()");
+				perror("Erreur avec la procedure write() premier appel, premier paquet");
 				exit(EXIT_FAILURE);
 			}
 
@@ -174,7 +178,7 @@ printf("le fils est mort, vive le fils !");
 				}
 
 				if(write(file_output_app_ext, buffer_out, size_out)==-1) {
-					perror("Erreur avec la procedure write()");
+					perror("Erreur avec la procedure write() premier appel");
 					exit(EXIT_FAILURE);
 				}
 
@@ -189,19 +193,17 @@ printf("le fils est mort, vive le fils !");
 
 			close(file_output_app_ext);
 
-			second_appel_app_ext(csock);
+			second_appel_app_ext(csock, s_id_post_inf_comp);
 
 		break;
 	}
 }
 
-void second_appel_app_ext(int csock) {
+void second_appel_app_ext(int csock, char * s_id_post_inf_comp) {
 	int file_output_app_ext_html;
 	
 	int pid_execution_app_ext;
 	int status_pid_app_ext;
-
-	char *s_id_post_inf_comp=NULL;
 
 	char buffer_in[TAILLE_BUFFER];
 	int size_in;
@@ -210,7 +212,7 @@ void second_appel_app_ext(int csock) {
 		case 0 :
 
 			printf("\n Deuxieme appel app externe\n\n");					
-
+//printf("\nid ::: %s\n",s_id_post_inf_comp);
 			execl(APP_EXT_TEST_PARSER,"testParsers", "2", s_id_post_inf_comp, CHEMIN_XML_PROCESS_DATA,(char *)0);
 
 			exit(EXIT_FAILURE); // En cas d'echec d'execl on termine le fils

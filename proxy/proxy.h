@@ -5,7 +5,7 @@
 #define INVALID_SOCKET -1
 
 #define TAILLE_BUFFER 4096
-#define PORT_NODEJS 8080
+#define PORT_NODEJS 60123
 #define TEMP_APP_EXT "tmp/tmp_app_ext.tmp"
 #define TEMP_APP_EXT_HTML "tmp/tmp_app_ext_html.tmp"
 #define OUTPUT_APP_EXT "../infirmiere/Serveur/XML_Process/data/reponseGoogle.xml"

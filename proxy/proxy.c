@@ -297,9 +297,11 @@ printf("Buffer out : \n %s\n", buffer_out);
 
 					//printf("\nBuffer recu : \n %s \n \n", buffer_in);
 					
-					printf("\nChaine POST /INFIRMIERE interceptée\n\n");					
+//printf("\nChaine POST /INFIRMIERE interceptée\n\n");					
 
 					s_id_post_inf=strstr(buffer_in,"id=");
+
+printf("\nID selectionné : %s\n", s_id_post_inf);
 
 					if(s_id_post_inf==NULL) {
 						printf("\n Attention ! Pas d'id trouvé \n");
@@ -324,7 +326,7 @@ printf("Buffer out : \n %s\n", buffer_out);
 				}
 				else if(strstr(petit_tampon, chaine_intercept_gest)!=NULL) {
 
-					printf("\nChaine Interface infirmiere interceptée\n\n");					
+//printf("\nChaine Interface infirmiere interceptée\n\n");					
 					/*
 					 * Requete relative a l'interface de gestion
 					 * On envoie le premier paquet qui a été lu sur le socket nodejs
@@ -356,7 +358,7 @@ printf("Buffer out : \n %s\n", buffer_out);
 					 * On envoie le premier paquet qui a été lu sur le socket cacheujf
 					 */
 					
-					printf("\nChaine non reconnue redirection sur le cache ujf\n\n");					
+//printf("\nChaine non reconnue redirection sur le cache ujf\n\n");					
 
 					if(send(sock_cacheujf, buffer_in, size_in, 0) < 0) {
 						perror("Erreur avec la procedure send()");

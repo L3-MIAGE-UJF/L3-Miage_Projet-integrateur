@@ -4,6 +4,6 @@
 int recup_param_port(int argc, char * argv[]);
 
 void premier_appel_app_ext(int csock, int sock_cacheujf, char * s_id_post_inf_comp);
-void second_appel_app_ext(int csock); // , char gros_tampon[3310720]
+void second_appel_app_ext(int csock, char * s_id_post_inf_comp);
 
 #endif
